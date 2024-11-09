@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int   @id @default(autoincrement())
+  name     String?
+  email    String   @unique
+  password String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  
+  Recipes Recipes[]
+  likes RecipeLikes[]
+
+  @@map("users")
+}
+
+model RecipeLikes {
+  id       Int     @id @default(autoincrement())
+  userId   Int     @map("fk_user_id")
+  recipeId Int     @map("fk_recipes_id")
+
+  user     User    @relation(fields: [userId], references: [id])
+  recipe   Recipes @relation(fields: [recipeId], references: [id])
+
+  @@map("recipe_likes")
+  @@unique([userId, recipeId]) 
+}
+
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Tags {
+  VEGAN
+  VEGETARIAN
+  GLUTEN_FREE
+  DAIRY_FREE
+  LOW_CARB
+  SUGAR_FREE
+  HIGH_PROTEIN
+  RAW
+  QUICK_MEAL
+  LOW_CALORIE
+  SPICY
+  SWEET
+  SAVORY
+  DESSERT
+  BREAKFAST
+  SNACK
+  BUDGET_FRIENDLY
+  SMOOTHIE
+  SOUP
+  SALAD
+  GRILLED
+  BAKED
+  FRIED
+  FERMENTED
+  HEALTHY
+  GOURMET
+}
+
+
+model Recipes {
+  id          Int      @id @default(autoincrement())
+  userId      Int     @map("user_id")
+  title       String
+  preparationTime Int @map("prep_time")
+  difficulty  Difficulty @unique
+  isDeleted  Boolean   @default(false)
+  instructions String
+  ingredients String
+  tags       Tags[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user       User      @relation(fields: [userId], references: [id])
+  likes      RecipeLikes[]
+
+  @@map("recipes")
+}
