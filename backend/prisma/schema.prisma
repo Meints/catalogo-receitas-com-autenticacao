@@ -8,23 +8,23 @@ datasource db {
 }
 
 model User {
-  id       Int   @id @default(autoincrement())
+  id       String     @id @default(uuid())
   name     String?
   email    String   @unique
   password String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime?       @updatedAt @map("updated_at")
   
-  Recipes Recipes[]
+  recipes Recipes[]
   likes RecipeLikes[]
 
   @@map("users")
 }
 
 model RecipeLikes {
-  id       Int     @id @default(autoincrement())
-  userId   Int     @map("fk_user_id")
-  recipeId Int     @map("fk_recipes_id")
+  id       String     @id @default(uuid())
+  userId   String     @map("fk_user_id")
+  recipeId String     @map("fk_recipes_id")
 
   user     User    @relation(fields: [userId], references: [id])
   recipe   Recipes @relation(fields: [recipeId], references: [id])
@@ -71,17 +71,18 @@ enum Tags {
 
 
 model Recipes {
-  id          Int      @id @default(autoincrement())
-  userId      Int     @map("user_id")
+  id          String     @id @default(uuid())
+  userId      String     @map("user_id")
   title       String
   preparationTime Int @map("prep_time")
   difficulty  Difficulty @unique
-  isDeleted  Boolean   @default(false)
+  isDeleted  Boolean   @default(false) @map("is_deleted")
+  deletedAt  DateTime? @map("deleted_at")
   instructions String
   ingredients String
   tags       Tags[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
 
   user       User      @relation(fields: [userId], references: [id])
   likes      RecipeLikes[]
