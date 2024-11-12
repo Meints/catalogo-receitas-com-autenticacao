@@ -24,7 +24,7 @@ model User {
 model RecipeLikes {
   id       String     @id @default(uuid())
   userId   String     @map("fk_user_id")
-  recipeId String     @map("fk_recipes_id")
+  recipeId Int     @map("fk_recipes_id")
 
   user     User    @relation(fields: [userId], references: [id])
   recipe   Recipes @relation(fields: [recipeId], references: [id])
@@ -71,7 +71,7 @@ enum Tags {
 
 
 model Recipes {
-  id          String     @id @default(uuid())
+  id          Int     @id @default(autoincrement())
   userId      String     @map("user_id")
   title       String
   preparationTime Int @map("prep_time")
