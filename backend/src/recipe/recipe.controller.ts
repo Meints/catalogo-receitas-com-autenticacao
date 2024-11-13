@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
+import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
 
-@Controller('recipe')
+@Controller('/recipe')
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
 
   @Post()
-  create(@Body() createRecipeDto: CreateRecipeDto) {
-    return this.recipeService.create(createRecipeDto);
+  async create(
+    @Body() createRecipeDto: CreateRecipeDto,
+  ): Promise<SuccessResponseDTO> {
+    await this.recipeService.create(createRecipeDto);
+    return { success: true };
   }
 
   @Get()

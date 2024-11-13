@@ -1,6 +1,11 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from 'src/repositories/user.repository';
 import { hash } from 'bcryptjs';
 
@@ -26,23 +31,29 @@ export class UserService {
     });
   }
 
-  findByEmail(email: string) {
-    return this.userRepository.findByEmail(email);
+  async findOne(id: string) {
+    const user = await this.userRepository.find<
+      Prisma.UserWhereInput,
+      Prisma.UserInclude
+    >({
+      id,
+    });
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado.');
+    }
+    return user;
   }
 
-  // findAll() {
-  //   return `This action returns all user`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  update(id: string, updateUserDto: UpdateUserDto) {
+    return this.userRepository.update<
+      Prisma.UserUncheckedUpdateInput,
+      Prisma.UserWhereUniqueInput
+    >(
+      {
+        ...updateUserDto,
+      },
+      { id },
+    );
+  }
 }

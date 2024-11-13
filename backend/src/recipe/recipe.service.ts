@@ -4,6 +4,7 @@ import { UpdateRecipeDto } from './dto/update-recipe.dto';
 
 @Injectable()
 export class RecipeService {
+  constructor(private readonly recipeRepository: RecipeRepository) {}
   create(createRecipeDto: CreateRecipeDto) {
     return 'This action adds a new recipe';
   }

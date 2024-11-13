@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateRecipeDto } from './create-recipe.dto';
+import { createRecipeSchema } from './create-recipe.dto';
+import { createZodDto } from 'nestjs-zod';
 
-export class UpdateRecipeDto extends PartialType(CreateRecipeDto) {}
+const updateRecipeSchema = createRecipeSchema.partial();
+
+export class UpdateRecipeDto extends createZodDto(updateRecipeSchema) {}

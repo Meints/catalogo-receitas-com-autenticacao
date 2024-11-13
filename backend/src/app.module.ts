@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envSchema } from './env';
 import { AuthModule } from './auth/auth.module';
+import { RecipeLikesModule } from './recipe_likes/recipe_likes.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     PrismaModule,
     AuthModule,
+    RecipeLikesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
