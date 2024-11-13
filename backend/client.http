@@ -1,12 +1,13 @@
 @baseUrl = http://localhost:3333
+@authToken = {{authenticate_user.response.body.access_token}}
 
 # @name create_user
 POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
-  "name": "Carlos Eduardo Meints",
-  "email": "carloseduardomeints@gmail.com",
+  "name": "Teste Auth",
+  "email": "auth@teste.com",
   "password": "123456"
 }
 
@@ -17,6 +18,6 @@ POST {{baseUrl}}/auth
 Content-Type: application/json
 
 {
-  "email": "carloseduardomeints@gmail.com",
+  "email": "auth@teste.com",
   "password": "123456"
 }
