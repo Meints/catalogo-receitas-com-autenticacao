@@ -26,14 +26,9 @@ export class RecipeController {
     return { success: true };
   }
 
-  @Get('filter')
+  @Get()
   async filterRecipes(@Query() filterParams: RecipeFilterParams) {
     return this.recipeService.filterRecipes(filterParams);
-  }
-
-  @Get()
-  findAll() {
-    return this.recipeService.findAll();
   }
 
   @Get(':id')

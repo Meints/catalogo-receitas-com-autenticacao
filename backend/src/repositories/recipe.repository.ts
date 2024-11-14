@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BaseRepository } from './base.repository';
-import { Difficulty, Recipes, Tags } from '@prisma/client';
+import { Difficulty, Prisma, Recipes, Tags } from '@prisma/client';
 
 export interface RecipeFilterParams {
   title?: string;
   tags?: Tags[];
   difficulty?: Difficulty;
   prepTime?: number;
-  orderBy?: 'mostPopular' | 'mostRecent';
+  orderBy?: 'mostPopular' | 'mostRecent'; //TODO passar para enum
 }
 
 @Injectable()
@@ -27,7 +27,7 @@ export class RecipeRepository extends BaseRepository<Recipes> {
     const where: any = { isDeleted: false };
 
     if (title) {
-      where.title = { contains: title };
+      where.title = { contains: title, mode: 'insensitive' };
     }
 
     if (difficulty) {
@@ -57,10 +57,12 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       };
     }
 
-    return this.findMany(where, undefined, order);
-  }
+    console.log(where);
 
-  async delete(id: number) {
-    return this.softDelete({ id });
+    return this.findMany<
+      Prisma.RecipesUncheckedUpdateInput,
+      Prisma.RecipesWhereUniqueInput,
+      Prisma.RecipesOrderByWithAggregationInput
+    >(where, undefined, order);
   }
 }
