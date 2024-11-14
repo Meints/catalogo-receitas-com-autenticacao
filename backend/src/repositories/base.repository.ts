@@ -15,7 +15,20 @@ export class BaseRepository<T> {
 
   async find<U, V>(condition: U, include?: V): Promise<T | null> {
     return await this.prisma[this.database].findFirst({
-      where: condition,
+      where: {
+        ...condition,
+        isDeleted: false,
+      },
+      include,
+    });
+  }
+
+  async findMany<U, V>(condition: U, include?: V): Promise<T[]> {
+    return await this.prisma[this.database].findMany({
+      where: {
+        ...condition,
+        isDeleted: false,
+      },
       include,
     });
   }
@@ -27,7 +40,13 @@ export class BaseRepository<T> {
     });
   }
 
-  async delete<U>(where: U) {
-    return await this.prisma[this.database].delete({ where });
+  async softDelete<U>(where: U) {
+    return await this.prisma[this.database].update({
+      where,
+      data: {
+        isDeleted: true,
+        deletedAt: new Date(),
+      },
+    });
   }
 }

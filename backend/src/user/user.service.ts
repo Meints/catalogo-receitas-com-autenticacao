@@ -31,6 +31,10 @@ export class UserService {
     });
   }
 
+  findByEmail(email: string) {
+    return this.userRepository.findByEmail(email);
+  }
+
   async findOne(id: string) {
     const user = await this.userRepository.find<
       Prisma.UserWhereInput,

@@ -20,7 +20,7 @@ export class RecipeController {
   async create(
     @Body() createRecipeDto: CreateRecipeDto,
   ): Promise<SuccessResponseDTO> {
-    await this.recipeService.create(createRecipeDto);
+    this.recipeService.create(createRecipeDto);
     return { success: true };
   }
 
