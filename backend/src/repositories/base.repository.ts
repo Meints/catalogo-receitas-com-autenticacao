@@ -15,10 +15,7 @@ export class BaseRepository<T> {
 
   async find<U, V>(condition: U, include?: V): Promise<T | null> {
     return await this.prisma[this.database].findFirst({
-      where: {
-        ...condition,
-        isDeleted: false,
-      },
+      where: condition,
       include,
     });
   }
@@ -29,10 +26,7 @@ export class BaseRepository<T> {
     orderBy?: W,
   ): Promise<T[]> {
     return await this.prisma[this.database].findMany({
-      where: {
-        ...condition,
-        isDeleted: false,
-      },
+      where: condition,
       include,
       orderBy,
     });

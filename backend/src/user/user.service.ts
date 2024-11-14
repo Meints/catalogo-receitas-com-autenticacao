@@ -49,7 +49,12 @@ export class UserService {
     return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      const hashedPassword = await hash(updateUserDto.password, 8);
+      updateUserDto.password = hashedPassword;
+    }
+
     return this.userRepository.update<
       Prisma.UserUncheckedUpdateInput,
       Prisma.UserWhereUniqueInput
