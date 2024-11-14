@@ -6,13 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
+import { RecipeFilterParams } from 'src/repositories/recipe.repository';
 
-@Controller('/recipe')
+@Controller('/recipes')
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
 
@@ -22,6 +24,11 @@ export class RecipeController {
   ): Promise<SuccessResponseDTO> {
     this.recipeService.create(createRecipeDto);
     return { success: true };
+  }
+
+  @Get('filter')
+  async filterRecipes(@Query() filterParams: RecipeFilterParams) {
+    return this.recipeService.filterRecipes(filterParams);
   }
 
   @Get()

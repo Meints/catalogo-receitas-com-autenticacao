@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { RecipeRepository } from 'src/repositories/recipe.repository';
+import {
+  RecipeFilterParams,
+  RecipeRepository,
+} from 'src/repositories/recipe.repository';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RecipeService {
   constructor(private readonly recipeRepository: RecipeRepository) {}
 
-  create(createRecipeDto: CreateRecipeDto) {
-    return 'This action adds a new recipe';
+  async create(createRecipeDto: CreateRecipeDto) {
+    const recipe = await this.recipeRepository.create(createRecipeDto);
+    return recipe;
   }
 
   findOne(id: number) {
@@ -17,16 +21,12 @@ export class RecipeService {
   }
 
   findAll() {
-    return `This action returns all recipe`;
+    return this.recipeRepository.findMany({});
   }
 
-  findTags() {}
-
-  findDifficulty() {}
-
-  findPrepTime() {}
-
-  findByTitle() {}
+  filterRecipes(filterParams: RecipeFilterParams) {
+    return this.recipeRepository.filterRecipes(filterParams);
+  }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
     return this.recipeRepository.update<
@@ -41,6 +41,6 @@ export class RecipeService {
   }
 
   remove(id: number) {
-    return this.remove(id);
+    return this.recipeRepository.softDelete({ id });
   }
 }

@@ -23,13 +23,18 @@ export class BaseRepository<T> {
     });
   }
 
-  async findMany<U, V>(condition: U, include?: V): Promise<T[]> {
+  async findMany<U, V, W>(
+    condition: U,
+    include?: V,
+    orderBy?: W,
+  ): Promise<T[]> {
     return await this.prisma[this.database].findMany({
       where: {
         ...condition,
         isDeleted: false,
       },
       include,
+      orderBy,
     });
   }
 
