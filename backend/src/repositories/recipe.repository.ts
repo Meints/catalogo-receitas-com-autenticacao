@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BaseRepository } from './base.repository';
 import { Difficulty, Prisma, Recipes, Tags } from '@prisma/client';
+import { OrderBy } from 'src/enum/orderby';
 
 export interface RecipeFilterParams {
   title?: string;
   tags?: Tags[];
   difficulty?: Difficulty;
   prepTime?: number;
-  orderBy?: 'mostPopular' | 'mostRecent'; //TODO passar para enum
+  orderBy?: OrderBy;
 }
 
 @Injectable()
@@ -45,13 +46,13 @@ export class RecipeRepository extends BaseRepository<Recipes> {
     }
 
     let order;
-    if (orderBy === 'mostPopular') {
+    if (orderBy === OrderBy.MostPopular) {
       order = {
         likes: {
           _count: 'desc',
         },
       };
-    } else if (orderBy === 'mostRecent') {
+    } else if (orderBy === OrderBy.MostRecent) {
       order = {
         createdAt: 'desc',
       };

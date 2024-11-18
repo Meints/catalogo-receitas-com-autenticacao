@@ -21,3 +21,21 @@ Content-Type: application/json
   "email": "auth@teste.com",
   "password": "123456"
 }
+
+###
+
+# @name create_recipe
+POST {{baseUrl}}/recipes
+Content-Type: application/json
+
+{
+  "email": "auth@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name recipe_like
+POST {{baseUrl}}/recipe-likes
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
