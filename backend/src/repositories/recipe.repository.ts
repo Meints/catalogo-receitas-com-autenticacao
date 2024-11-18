@@ -57,8 +57,6 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       };
     }
 
-    console.log(where);
-
     return this.findMany<
       Prisma.RecipesUncheckedUpdateInput,
       Prisma.RecipesWhereUniqueInput,

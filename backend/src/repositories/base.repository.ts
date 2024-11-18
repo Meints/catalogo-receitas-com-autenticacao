@@ -48,4 +48,10 @@ export class BaseRepository<T> {
       },
     });
   }
+
+  async remove<U>(where: U): Promise<T> {
+    return await this.prisma[this.database].delete({
+      where,
+    });
+  }
 }
