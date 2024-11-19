@@ -8,6 +8,8 @@ async function bootstrap() {
     // logger: false,
   });
 
+  app.enableCors();
+
   const condigService: ConfigService<Env, true> = app.get(ConfigService);
   const port = condigService.get('PORT', { infer: true });
 
