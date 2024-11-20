@@ -6,15 +6,33 @@ import {
   Patch,
   Param,
   HttpCode,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Post(':id/file')
+  @UseInterceptors(FileInterceptor('file'))
+  async createFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: string,
+  ) {
+    await this.userService.createFile(file, id);
+    return { success: true };
+  }
+
+  @Get('signed_url/:id')
+  getSignedURL(@Param('id') id: string) {
+    return this.userService.getSignedURL(id);
+  }
 
   @Post()
   @HttpCode(201)

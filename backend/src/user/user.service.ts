@@ -8,10 +8,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from 'src/repositories/user.repository';
 import { hash } from 'bcryptjs';
+import { AwsService } from 'src/aws/aws.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly awsService: AwsService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<void> {
     const { email, password } = createUserDto;
@@ -64,5 +68,25 @@ export class UserService {
       },
       { id },
     );
+  }
+
+  async createFile(file: Express.Multer.File, userId: string) {
+    const user = await this.userRepository.find({ id: userId });
+    const photoKey = user?.photoKey
+      ? user.photoKey
+      : this.awsService.createPhotoKeyUser(userId, file.mimetype.split('/')[1]);
+    await this.awsService.updatePhoto(file, photoKey);
+    return this.userRepository.update({ photoKey }, { id: userId });
+  }
+
+  async getSignedURL(id: string) {
+    const user = await this.userRepository.find({ id });
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+    const signedUrl = await this.awsService.getStoredObject(
+      user.photoKey as string,
+    );
+    return { signedUrl };
   }
 }
