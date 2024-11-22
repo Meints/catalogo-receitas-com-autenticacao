@@ -76,7 +76,7 @@ model Recipes {
   userId      String     @map("user_id")
   title       String
   preparationTime Int @map("prep_time")
-  difficulty  Difficulty @unique
+  difficulty  Difficulty
   isDeleted  Boolean   @default(false) @map("is_deleted")
   deletedAt  DateTime? @map("deleted_at")
   instructions String
