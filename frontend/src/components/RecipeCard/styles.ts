@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { DifficultyRecipe } from '../../types/models'
 
 export const Card = styled.div`
-  width: 300px;
+  width: calc(80vw / 4 - 30px);
   background: ${(props) => props.theme['gray-100']};
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -88,7 +88,7 @@ export const Tag = styled.li`
   text-align: center;
   align-items: center;
   text-transform: uppercase;
-  background: ${(props) => props.theme['purple-300']};
+  background: ${(props) => props.theme['purple-200']};
   padding: 10px;
   height: 24px;
   border-radius: 8px;

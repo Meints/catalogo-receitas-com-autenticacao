@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Recipe } from '../../types/models'
 import { RecipeCard } from '../../components/RecipeCard'
 import { RecipesContainer } from './styles'
+import { EmptyRecipes } from '../empty-recipes'
 
 export function RecipeListing() {
   const [recipes, setRecipes] = useState<Recipe[]>([])
@@ -33,20 +34,23 @@ export function RecipeListing() {
   }, [recipes])
 
   return (
-    <div>
-      <h1>Lista de Receitas</h1>
-      <RecipesContainer>
-        {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            title={recipe.title}
-            image={signedUrls[recipe.id]}
-            difficulty={recipe.difficulty}
-            preparationTime={recipe.preparationTime}
-            tags={recipe.tags}
-          />
-        ))}
-      </RecipesContainer>
-    </div>
+    <>
+      {recipes.length > 0 ? (
+        <RecipesContainer>
+          {recipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              title={recipe.title}
+              image={signedUrls[recipe.id]}
+              difficulty={recipe.difficulty}
+              preparationTime={recipe.preparationTime}
+              tags={recipe.tags}
+            />
+          ))}
+        </RecipesContainer>
+      ) : (
+        <EmptyRecipes />
+      )}
+    </>
   )
 }

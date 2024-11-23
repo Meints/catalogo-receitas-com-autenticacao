@@ -47,10 +47,10 @@ export type Recipe = {
   userId: string
   title: string
   preparationTime: number
-  difficulty: DifficultyRecipe
+  difficulty: keyof typeof DifficultyRecipe
   instruction: string
   ingredients: string
-  tags: TagsRecipe[]
+  tags: (keyof typeof TagsRecipe)[]
   isDeleted: boolean
   deletedAt: Date
   createdAt: Date
