@@ -16,6 +16,7 @@ export const LoginContainer = styled.div`
 `
 
 export const FormContainer = styled(Form.Root)`
+  max-width: 80vw;
   background: ${(props) => props.theme.white};
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
   width: 40%;

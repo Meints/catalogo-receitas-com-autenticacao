@@ -10,8 +10,18 @@ import {
   MenubarSeparator,
   LinkMenu,
 } from './styles'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 export function Avatar() {
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <MenubarRoot>
       <Menubar.Menu>
@@ -36,7 +46,7 @@ export function Avatar() {
             <MenubarItem>Receitas curtidas</MenubarItem>
           </LinkMenu>
           <MenubarSeparator />
-          <MenubarItem>Sair</MenubarItem>
+          <MenubarItem onClick={handleLogout}>Sair</MenubarItem>
         </MenubarContent>
       </Menubar.Menu>
     </MenubarRoot>

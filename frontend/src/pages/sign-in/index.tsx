@@ -1,5 +1,8 @@
 import { Envelope, Eye, EyeSlash } from '@phosphor-icons/react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form' // Importação do useForm
+import { zodResolver } from '@hookform/resolvers/zod' // Importação do zodResolver
 import {
   FormContainer,
   LoginContainer,
@@ -18,30 +21,41 @@ import {
   StyledLink,
 } from './styles'
 import Logo from '../../assets/logo.png'
-import axios from 'axios'
+import { toast } from 'react-toastify'
+import { ILoginFields, loginSchema } from './validation'
+import { useAuth } from '../../hooks/useAuth'
+import { isAxiosError } from 'axios'
 
 export function SignIn() {
+  const form = useForm<ILoginFields>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
   const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
+  const handleSubmit = async (data: ILoginFields) => {
     try {
-      const response = await axios.post('http://localhost:3333/auth', {
-        email,
-        password,
-      })
-      console.log('sucesso: ', response.data)
+      await login(data.email, data.password)
+      navigate('/')
     } catch (error) {
-      console.log('erro: ', error)
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data.message)
+      } else {
+        toast.error('Erro ao realizar login')
+      }
     }
   }
 
   return (
     <LoginContainer>
-      <FormContainer onSubmit={handleSubmit}>
+      <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
         <FormHeader>
           <FormImageHeader src={Logo} alt="logo ChefNet receitas" />
           <FormTitleHeader>Login</FormTitleHeader>
@@ -52,12 +66,7 @@ export function SignIn() {
             E-mail<Required>*</Required>
           </FormLabel>
           <FormControl>
-            <FormInput
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <FormInput type="email" {...form.register('email')} required />
             <IconWrapper>
               <Envelope size={20} />
             </IconWrapper>
@@ -71,8 +80,7 @@ export function SignIn() {
           <FormControl>
             <FormInput
               type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...form.register('password')}
               required
             />
             <IconWrapper onClick={() => setShowPassword(!showPassword)}>
@@ -83,11 +91,11 @@ export function SignIn() {
         </FormField>
 
         <FormSubmit asChild>
-          <Button>Entrar</Button>
+          <Button type="submit">Entrar</Button>
         </FormSubmit>
 
         <LinkSection>
-          <StyledLink href="/signup">
+          <StyledLink href="/sign-up">
             Ainda não tem cadastro? Clique aqui
           </StyledLink>
         </LinkSection>
