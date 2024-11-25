@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { DifficultyRecipe } from '../../types/models'
 
 export const Card = styled.div`
-  width: calc(80vw / 4 - 30px);
+  width: calc(80vw / 4 - 30px); /* Largura para telas grandes */
   background: ${(props) => props.theme['gray-100']};
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -11,6 +11,18 @@ export const Card = styled.div`
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  @media (max-width: 1024px) {
+    width: calc(80vw / 3 - 27px);
+  }
+
+  @media (max-width: 768px) {
+    width: calc(80vw / 2 - 20px);
+  }
+
+  @media (max-width: 600px) {
+    width: 80vw;
   }
 `
 

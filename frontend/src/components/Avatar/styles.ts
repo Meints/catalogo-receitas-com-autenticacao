@@ -31,7 +31,6 @@ export const AvatarFallback = styled(Avatar.Fallback)`
 
 export const MenubarRoot = styled(Menubar.Root)`
   display: flex;
-  background-color: white;
   padding: 3px;
   border-radius: 6px;
   z-index: 9999;

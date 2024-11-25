@@ -12,7 +12,7 @@ const tokenSchema = z.object({
   }),
 });
 
-type TokenSchema = z.infer<typeof tokenSchema>;
+export type TokenSchema = z.infer<typeof tokenSchema>;
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

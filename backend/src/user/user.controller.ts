@@ -8,14 +8,19 @@ import {
   HttpCode,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CurrentUser } from 'src/auth/current-user-decorator';
+import { TokenSchema } from 'src/auth/jwt.strategy';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('/user')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -43,17 +48,17 @@ export class UserController {
     return { success: true };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  @Get()
+  findOne(@CurrentUser() user: TokenSchema) {
+    return this.userService.findOne(user.sub.id);
   }
 
-  @Patch(':id')
+  @Patch()
   async update(
-    @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @CurrentUser() user: TokenSchema,
   ): Promise<SuccessResponseDTO> {
-    await this.userService.update(id, updateUserDto);
+    await this.userService.update(user.sub.id, updateUserDto);
     return { success: true };
   }
 }

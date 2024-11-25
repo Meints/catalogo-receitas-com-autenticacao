@@ -1,7 +1,7 @@
-import { ISuccessResponse } from '@/interfaces/routes'
-import { IUser } from '@/interfaces/schema'
-import http from '@/lib/http'
-import { CreateUserForm } from '@/pages/SignUp/validation'
+import { ISuccessResponse } from '../interfaces/routes'
+import { IUser } from '../interfaces/schema'
+import http from '../lib/http'
+import { CreateUserForm } from '../pages/sign-up/validation'
 
 export const UserService = {
   signUp: async (data: CreateUserForm) => {
