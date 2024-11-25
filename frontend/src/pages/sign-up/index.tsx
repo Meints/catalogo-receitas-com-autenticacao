@@ -125,7 +125,7 @@ export function SignUp() {
         </FormSubmit>
 
         <LinkSection>
-          <StyledLink href="/signin">Já tem uma conta? Faça login</StyledLink>
+          <StyledLink href="/login">Já tem uma conta? Faça login</StyledLink>
         </LinkSection>
       </FormContainer>
     </LoginContainer>

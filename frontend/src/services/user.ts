@@ -18,4 +18,11 @@ export const UserService = {
     const response = await http.get<IUser>('/user')
     return response.data
   },
+
+  getSignedUrl: async (photokey: string) => {
+    const response = await http.get<ISuccessResponse>(
+      `/user/signed_url/${photokey}`,
+    )
+    return response.data
+  },
 }

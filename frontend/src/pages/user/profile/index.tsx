@@ -29,10 +29,9 @@ export function Profile() {
   const getUser = useCallback(async () => {
     try {
       const data = await UserService.getProfile()
-      console.log(data)
       form.setValue('name', data.name)
       form.setValue('email', data.email)
-      form.setValue('password', '') // Não pré-preencher a senha
+      form.setValue('password', '')
     } catch (error) {
       toast.error('Erro ao carregar dados do perfil.')
     }
@@ -46,7 +45,6 @@ export function Profile() {
     setIsLoading(true)
     try {
       const { password, ...payload } = data
-      // Enviar apenas name, email, e password (se fornecido)
       await UserService.update(payload)
       toast.success('Perfil atualizado com sucesso!')
     } catch (error) {
