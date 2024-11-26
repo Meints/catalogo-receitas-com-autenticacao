@@ -2,9 +2,18 @@ import styled from 'styled-components'
 
 export const TagContainer = styled.div`
   display: grid;
-  grid-template-rows: repeat(4, auto);
+  grid-template-rows: repeat(6, auto);
   grid-auto-flow: column;
   gap: 16px;
+  width: 100%;
+
+  @media (max-width: 480px) {
+    grid-template-rows: repeat(10, auto);
+  }
+
+  @media (max-width: 400px) {
+    grid-template-rows: repeat(13, auto);
+  }
 `
 
 export const CheckboxWrapper = styled.div`

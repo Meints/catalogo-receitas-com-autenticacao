@@ -19,10 +19,10 @@ export const UserService = {
     return response.data
   },
 
-  getSignedUrl: async (photokey: string) => {
-    const response = await http.get<ISuccessResponse>(
-      `/user/signed_url/${photokey}`,
+  getSignedUrl: async (userId: string): Promise<string> => {
+    const response = await http.get<{ signedUrl: string }>(
+      `/user/signed_url/${userId}`,
     )
-    return response.data
+    return response.data.signedUrl
   },
 }

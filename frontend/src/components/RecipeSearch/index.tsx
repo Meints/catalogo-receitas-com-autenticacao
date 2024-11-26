@@ -1,25 +1,30 @@
 import { useState } from 'react'
 import { TitleFilter } from '../TitleFilter'
 import { DifficultyRecipe, TagsRecipe } from '../../types/models'
-import { PrepTimeFilter } from '../PrepTimeFilter'
-import { DifficultyFilter } from '../DifficultyFilter'
-import { IngredientFilter } from '../IngredientFilter'
-import { TagFilter } from '../TagFilter'
+// import { PrepTimeFilter } from '../PrepTimeFilter'
+// import { DifficultyFilter } from '../DifficultyFilter'
+// import { IngredientFilter } from '../IngredientFilter'
+// import { TagFilter } from '../TagFilter'
 import {
-  MainFilter,
+  // MainFilter,
   SearchContainer,
-  SecondaryFilter,
-  TagsSection,
+  // SecondaryFilter,
+  // TagsSection,
   Button,
+  FiltersGroup,
+  TitleFilterContainer,
+  ModalFilterContainer,
 } from './styles'
-import { LikesFilter } from '../LikesFilter'
+// import { LikesFilter } from '../LikesFilter'
+import { ModalFilter } from '../ModalFilter'
 
-type FilterState = {
+export type FilterState = {
   title: string
   prepTime: string
   difficulty: DifficultyRecipe | ''
   ingredients: string
   tags: TagsRecipe[] | []
+  orderBy: string
 }
 
 export function RecipeSearch() {
@@ -29,6 +34,7 @@ export function RecipeSearch() {
     difficulty: '',
     ingredients: '',
     tags: [],
+    orderBy: '',
   })
 
   const handleFilterChange = (
@@ -37,7 +43,6 @@ export function RecipeSearch() {
   ) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, [field]: value }
-      console.log(updatedFilters)
       return updatedFilters
     })
   }
@@ -48,27 +53,43 @@ export function RecipeSearch() {
 
   return (
     <SearchContainer>
-      <MainFilter>
+      <TitleFilterContainer>
         <TitleFilter onChange={(value) => handleFilterChange('title', value)} />
-        <DifficultyFilter
-          onChange={(value) => handleFilterChange('difficulty', value)}
-        />
-      </MainFilter>
-      <SecondaryFilter>
-        <PrepTimeFilter
-          onChange={(value) => handleFilterChange('prepTime', value)}
-        />
-        <IngredientFilter
-          onChange={(value) => handleFilterChange('ingredients', value)}
-        />
-      </SecondaryFilter>
-      <TagsSection>
-        <TagFilter onChange={(value) => handleFilterChange('tags', value)} />
-      </TagsSection>
-      <div>
-        <LikesFilter />
+      </TitleFilterContainer>
+
+      <ModalFilterContainer>
+        <ModalFilter handleFilterChange={handleFilterChange} />
+      </ModalFilterContainer>
+
+      <FiltersGroup>
         <Button onClick={applyFilters}>Aplicar filtros</Button>
-      </div>
+      </FiltersGroup>
     </SearchContainer>
   )
+  // return (
+  //   <SearchContainer>
+  //     <TitleFilter onChange={(value) => handleFilterChange('title', value)} />
+  //     <DifficultyFilter
+  //         onChange={(value) => handleFilterChange('difficulty', value)}
+  //       />
+  //       <LikesFilter
+  //         onChange={(value) => handleFilterChange('orderBy', value)}
+  //       />
+  //     <ModalFilter handleFilterChange={handleFilterChange} />
+  //     <SecondaryFilter>
+  //       <PrepTimeFilter
+  //         onChange={(value) => handleFilterChange('prepTime', value)}
+  //       />
+  //       <IngredientFilter
+  //         onChange={(value) => handleFilterChange('ingredients', value)}
+  //       />
+  //     </SecondaryFilter>
+  //     <TagsSection>
+  //       <TagFilter onChange={(value) => handleFilterChange('tags', value)} />
+  //     </TagsSection>
+  //     <FiltersGroup>
+  //       <Button onClick={applyFilters}>Aplicar filtros</Button>
+  //     </FiltersGroup>
+  //   </SearchContainer>
+  // )
 }

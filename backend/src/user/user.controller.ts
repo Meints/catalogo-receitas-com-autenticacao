@@ -20,7 +20,7 @@ import { TokenSchema } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('/user')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -49,11 +49,13 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findOne(@CurrentUser() user: TokenSchema) {
     return this.userService.findOne(user.sub.id);
   }
 
   @Patch()
+  @UseGuards(JwtAuthGuard)
   async update(
     @Body() updateUserDto: UpdateUserDto,
     @CurrentUser() user: TokenSchema,

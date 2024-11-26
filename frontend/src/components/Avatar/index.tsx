@@ -19,7 +19,7 @@ export function Avatar() {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
-  const [userImage, setUserImage] = useState<string | null>(null)
+  const [userImage, setUserImage] = useState<string | undefined>(undefined)
 
   const getInitials = (name: string) => {
     const nameParts = name.split(' ')
@@ -38,11 +38,15 @@ export function Avatar() {
         setUserName(data.name)
 
         if (data.photoKey) {
-          const signedUrl = await UserService.getSignedUrl(data.photoKey)
-          setUserImage(signedUrl)
+          const signedUrl = await UserService.getSignedUrl(data.id)
+          if (typeof signedUrl === 'string' && signedUrl.trim()) {
+            setUserImage(signedUrl)
+          }
+        } else {
+          setUserImage(undefined)
         }
       } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error)
+        console.log('Erro ao buscar dados do usuário:', error)
       }
     }
 
@@ -59,7 +63,7 @@ export function Avatar() {
       <Menubar.Menu>
         <MenubarTrigger asChild>
           <AvatarRoot>
-            <AvatarImage src="" alt="Avatar do usuário" />
+            <AvatarImage src={userImage} alt="Avatar do usuário" />
             <AvatarFallback>
               {userName ? getInitials(userName) : 'AA'}
             </AvatarFallback>

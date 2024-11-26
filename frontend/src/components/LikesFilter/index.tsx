@@ -1,14 +1,34 @@
-export function LikesFilter() {
+import { Label, LikesFilterContainer, Radio, RadioWrapper } from './styles'
+
+type LikesFilterProps = {
+  onChange: (value: string) => void
+}
+
+export function LikesFilter({ onChange }: Readonly<LikesFilterProps>) {
   return (
-    <div>
-      <label>
-        <input type="radio" value="like" />
-        {''}Filtrar por curtidas
-      </label>
-      <label>
-        <input type="radio" value="like" />
-        {''}Filtrar por recentes
-      </label>
-    </div>
+    <LikesFilterContainer>
+      <RadioWrapper>
+        <Label>
+          <Radio
+            type="radio"
+            name="likesFilter"
+            value="recent"
+            onChange={(e) => onChange(e.target.value)}
+          />
+          Ordenar por recentes
+        </Label>
+      </RadioWrapper>
+      <RadioWrapper>
+        <Label>
+          <Radio
+            type="radio"
+            name="likesFilter"
+            value="like"
+            onChange={(e) => onChange(e.target.value)}
+          />
+          Ordenar por curtidas
+        </Label>
+      </RadioWrapper>
+    </LikesFilterContainer>
   )
 }
