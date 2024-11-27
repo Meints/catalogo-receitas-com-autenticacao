@@ -1,21 +1,12 @@
 import { useState } from 'react'
 import { TitleFilter } from '../TitleFilter'
 import { DifficultyRecipe, TagsRecipe } from '../../types/models'
-// import { PrepTimeFilter } from '../PrepTimeFilter'
-// import { DifficultyFilter } from '../DifficultyFilter'
-// import { IngredientFilter } from '../IngredientFilter'
-// import { TagFilter } from '../TagFilter'
 import {
-  // MainFilter,
   SearchContainer,
-  // SecondaryFilter,
-  // TagsSection,
-  Button,
-  FiltersGroup,
   TitleFilterContainer,
-  ModalFilterContainer,
+  FiltersGroup,
+  Button,
 } from './styles'
-// import { LikesFilter } from '../LikesFilter'
 import { ModalFilter } from '../ModalFilter'
 
 export type FilterState = {
@@ -56,40 +47,10 @@ export function RecipeSearch() {
       <TitleFilterContainer>
         <TitleFilter onChange={(value) => handleFilterChange('title', value)} />
       </TitleFilterContainer>
-
-      <ModalFilterContainer>
-        <ModalFilter handleFilterChange={handleFilterChange} />
-      </ModalFilterContainer>
-
       <FiltersGroup>
-        <Button onClick={applyFilters}>Aplicar filtros</Button>
+        <ModalFilter handleFilterChange={handleFilterChange} />
+        <Button onClick={applyFilters}>Buscar Receita</Button>
       </FiltersGroup>
     </SearchContainer>
   )
-  // return (
-  //   <SearchContainer>
-  //     <TitleFilter onChange={(value) => handleFilterChange('title', value)} />
-  //     <DifficultyFilter
-  //         onChange={(value) => handleFilterChange('difficulty', value)}
-  //       />
-  //       <LikesFilter
-  //         onChange={(value) => handleFilterChange('orderBy', value)}
-  //       />
-  //     <ModalFilter handleFilterChange={handleFilterChange} />
-  //     <SecondaryFilter>
-  //       <PrepTimeFilter
-  //         onChange={(value) => handleFilterChange('prepTime', value)}
-  //       />
-  //       <IngredientFilter
-  //         onChange={(value) => handleFilterChange('ingredients', value)}
-  //       />
-  //     </SecondaryFilter>
-  //     <TagsSection>
-  //       <TagFilter onChange={(value) => handleFilterChange('tags', value)} />
-  //     </TagsSection>
-  //     <FiltersGroup>
-  //       <Button onClick={applyFilters}>Aplicar filtros</Button>
-  //     </FiltersGroup>
-  //   </SearchContainer>
-  // )
 }

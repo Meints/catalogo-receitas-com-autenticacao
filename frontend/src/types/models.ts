@@ -48,7 +48,7 @@ export type Recipe = {
   title: string
   preparationTime: number
   difficulty: keyof typeof DifficultyRecipe
-  instruction: string
+  instructions: string
   ingredients: string
   tags: (keyof typeof TagsRecipe)[]
   isDeleted: boolean

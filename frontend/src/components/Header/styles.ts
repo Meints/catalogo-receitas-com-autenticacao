@@ -5,8 +5,8 @@ export const HeaderContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100vw;
-  max-width: 80vw;
-  background: ${(props) => props.theme['gray-200']};
+  padding: 10px 20px;
+  background: ${(props) => props.theme['purple-300']};
 `
 
 export const Logo = styled.img`

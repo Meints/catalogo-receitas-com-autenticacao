@@ -1,8 +1,9 @@
-import { DifficultyRecipe, TagsRecipe } from '../../types/models'
+import { DifficultyRecipe, Recipe, TagsRecipe } from '../../types/models'
+import { ModalRecipeDetails } from '../ModalRecipeDetails'
 import {
   Card,
   Image,
-  ImageConatiner,
+  ImageContainer,
   OverlayContainer,
   OverlayText,
   PrepTime,
@@ -10,42 +11,60 @@ import {
   Title,
   ListTags,
   Tag,
+  DialogContainer,
+  DialogTrigger,
+  DialogPortal,
+  DialogOverlay,
+  DialogContent,
 } from './styles'
 
 interface RecipeCardProps {
   image: string
-  title: string
-  preparationTime: number
-  difficulty: keyof typeof DifficultyRecipe
-  tags: (keyof typeof TagsRecipe)[]
+  // title: string
+  // preparationTime: number
+  // difficulty: keyof typeof DifficultyRecipe
+  // tags: (keyof typeof TagsRecipe)[]
+  recipe: Recipe
 }
 
 export function RecipeCard({
   image,
-  title,
-  preparationTime,
-  difficulty,
-  tags,
+  // title,
+  // preparationTime,
+  // difficulty,
+  // tags,
+  recipe,
 }: Readonly<RecipeCardProps>) {
+  console.log(DifficultyRecipe[recipe.difficulty])
   return (
-    <Card>
-      <ImageConatiner>
-        <Image src={image} alt={title} />
-        <OverlayContainer>
-          <OverlayText variant={DifficultyRecipe[difficulty]}>
-            {DifficultyRecipe[difficulty].toUpperCase()}
-          </OverlayText>
-          <PrepTime>{preparationTime} min</PrepTime>
-        </OverlayContainer>
-      </ImageConatiner>
-      <Content>
-        <Title>{title}</Title>
-        <ListTags>
-          {tags.map((tag) => (
-            <Tag key={tag}>{TagsRecipe[tag]}</Tag>
-          ))}
-        </ListTags>
-      </Content>
-    </Card>
+    <DialogContainer>
+      <DialogTrigger>
+        <Card>
+          <ImageContainer>
+            <Image src={image} alt={recipe.title} />
+            <OverlayContainer>
+              <OverlayText variant={DifficultyRecipe[recipe.difficulty]}>
+                {DifficultyRecipe[recipe.difficulty].toUpperCase()}
+              </OverlayText>
+              <PrepTime>{recipe.preparationTime} min</PrepTime>
+            </OverlayContainer>
+          </ImageContainer>
+          <Content>
+            <Title>{recipe.title}</Title>
+            <ListTags>
+              {recipe.tags.map((tag) => (
+                <Tag key={tag}>{TagsRecipe[tag]}</Tag>
+              ))}
+            </ListTags>
+          </Content>
+        </Card>
+      </DialogTrigger>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogContent>
+          <ModalRecipeDetails recipe={recipe} image={image} />
+        </DialogContent>
+      </DialogPortal>
+    </DialogContainer>
   )
 }

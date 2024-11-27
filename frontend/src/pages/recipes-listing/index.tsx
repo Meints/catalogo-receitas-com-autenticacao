@@ -40,11 +40,8 @@ export function RecipeListing() {
           {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
-              title={recipe.title}
               image={signedUrls[recipe.id]}
-              difficulty={recipe.difficulty}
-              preparationTime={recipe.preparationTime}
-              tags={recipe.tags}
+              recipe={recipe}
             />
           ))}
         </RecipesContainer>

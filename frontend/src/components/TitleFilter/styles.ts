@@ -1,16 +1,26 @@
 import styled from 'styled-components'
 
 export const InputContainer = styled.div`
-  display: inline-block;
+  display: flex;
+  align-items: center;
   position: relative;
   width: 100%;
 `
 
+export const IconContainer = styled.div`
+  position: absolute;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${(props) => props.theme['gray-600']};
+`
+
 export const Input = styled.input`
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px 16px 12px 40px;
   font-size: 14px;
-  border: 1px solid ${(props) => props.theme['gray-300']};
+  border: 1px solid ${(props) => props.theme['purple-300']};
   border-radius: 6px;
   background: ${(props) => props.theme['gray-100']};
   color: ${(props) => props.theme['gray-600']};

@@ -1,8 +1,8 @@
 import { Envelope, Eye, EyeSlash } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form' // Importação do useForm
-import { zodResolver } from '@hookform/resolvers/zod' // Importação do zodResolver
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   FormContainer,
   LoginContainer,

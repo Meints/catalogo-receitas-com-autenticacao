@@ -1,13 +1,54 @@
 import styled from 'styled-components'
 import { DifficultyRecipe } from '../../types/models'
+import * as Dialog from '@radix-ui/react-dialog'
+
+export const DialogContainer = styled(Dialog.Root)`
+  padding: 0;
+  margin: 0;
+`
+
+export const DialogTrigger = styled(Dialog.Trigger)`
+  border: 0;
+`
+
+export const DialogPortal = styled(Dialog.Portal)`
+  padding: 0;
+  margin: 0;
+`
+
+export const DialogOverlay = styled(Dialog.Overlay)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+`
+
+export const DialogContent = styled(Dialog.Content)`
+  background-color: ${(props) => props.theme.white};
+  border-radius: 8px;
+  padding: 20px;
+  width: 600px;
+  max-width: 90%;
+  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+`
 
 export const Card = styled.div`
-  width: calc(80vw / 4 - 30px); /* Largura para telas grandes */
+  width: calc(80vw / 4 - 30px);
+  height: 100%;
   background: ${(props) => props.theme['gray-100']};
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.05);
@@ -26,7 +67,7 @@ export const Card = styled.div`
   }
 `
 
-export const ImageConatiner = styled.div`
+export const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 200px;
