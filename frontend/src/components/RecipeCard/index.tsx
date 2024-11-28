@@ -20,22 +20,10 @@ import {
 
 interface RecipeCardProps {
   image: string
-  // title: string
-  // preparationTime: number
-  // difficulty: keyof typeof DifficultyRecipe
-  // tags: (keyof typeof TagsRecipe)[]
   recipe: Recipe
 }
 
-export function RecipeCard({
-  image,
-  // title,
-  // preparationTime,
-  // difficulty,
-  // tags,
-  recipe,
-}: Readonly<RecipeCardProps>) {
-  console.log(DifficultyRecipe[recipe.difficulty])
+export function RecipeCard({ image, recipe }: Readonly<RecipeCardProps>) {
   return (
     <DialogContainer>
       <DialogTrigger>

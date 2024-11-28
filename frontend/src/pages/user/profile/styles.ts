@@ -5,7 +5,7 @@ export const ProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 100px);
   width: 100%;
   padding: 20px;
 `
@@ -28,38 +28,6 @@ export const FormContainer = styled(Form.Root)`
   @media (max-width: 480px) {
     width: 100%;
     padding: 20px;
-  }
-`
-
-export const FormHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
-`
-
-export const FormImageHeader = styled.img`
-  width: 100px;
-  border-right: 2px solid ${(props) => props.theme['gray-300']};
-  padding-right: 15px;
-
-  @media (max-width: 480px) {
-    width: 80px;
-  }
-`
-
-export const FormTitleHeader = styled.h2`
-  font-size: 26px;
-  font-weight: bold;
-  color: ${(props) => props.theme['purple-500']};
-
-  @media (max-width: 768px) {
-    font-size: 22px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 18px;
   }
 `
 
@@ -102,6 +70,7 @@ export const FormInput = styled.input`
 
   @media (max-width: 768px) {
     padding: 12px 20px;
+    font-size: 14px;
   }
 `
 

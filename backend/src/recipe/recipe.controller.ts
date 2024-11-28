@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ParseIntPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
@@ -38,6 +39,7 @@ export class RecipeController {
   }
 
   @Post()
+  @HttpCode(201)
   async create(
     @Body() createRecipeDto: CreateRecipeDto,
   ): Promise<SuccessResponseDTO> {

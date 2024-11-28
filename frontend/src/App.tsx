@@ -11,7 +11,7 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <AuthProvider>
-        <ToastContainer />
+        <ToastContainer style={{ zIndex: 9999 }} />
         <RouterProvider router={router} />
       </AuthProvider>
       <GlobalStyle />

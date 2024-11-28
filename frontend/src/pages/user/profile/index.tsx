@@ -14,17 +14,18 @@ import {
   ProfileContainer,
 } from './styles'
 import { UserService } from '../../../services/user'
-import { UpdateUserForm, updateUserSchema } from './validation' // Certifique-se de que está importando UpdateUserForm
+import { UpdateUserForm, updateUserSchema } from './validation'
 
 import { Envelope, Eye, EyeSlash, User } from '@phosphor-icons/react'
 
 export function Profile() {
   const form = useForm<UpdateUserForm>({
-    resolver: zodResolver(updateUserSchema), // Use o schema de atualização aqui
+    resolver: zodResolver(updateUserSchema),
   })
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null)
 
   const getUser = useCallback(async () => {
     try {
@@ -33,6 +34,7 @@ export function Profile() {
       form.setValue('email', data.email)
       form.setValue('password', '')
     } catch (error) {
+      console.log(error)
       toast.error('Erro ao carregar dados do perfil.')
     }
   }, [form])
@@ -41,18 +43,33 @@ export function Profile() {
     getUser()
   }, [getUser])
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      form.setValue('photoKey', file)
+      setPreviewPhoto(URL.createObjectURL(file))
+    }
+  }
+
   const handleSubmit = async (data: UpdateUserForm) => {
     setIsLoading(true)
     try {
-      const { password, ...payload } = data
+      const payload = { ...data }
+      if (!data.password) {
+        delete payload.password
+      }
+
       await UserService.update(payload)
       toast.success('Perfil atualizado com sucesso!')
     } catch (error) {
+      console.log(error)
       toast.error('Erro ao atualizar o perfil.')
     } finally {
       setIsLoading(false)
     }
   }
+
+  console.log(getUser())
 
   return (
     <ProfileContainer>
@@ -99,6 +116,18 @@ export function Profile() {
               {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
             </IconWrapper>
           </FormControl>
+        </FormField>
+
+        <FormField name="photo">
+          <FormLabel>Foto do Usuário</FormLabel>
+          <FormControl>
+            <FormInput
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </FormControl>
+          {previewPhoto && <img src={previewPhoto} alt="Preview" width={200} />}
         </FormField>
 
         <FormSubmit asChild>

@@ -11,6 +11,12 @@ export const ModalContainer = styled.div`
   position: relative;
   margin: 0 auto;
   z-index: 100;
+
+  @media (max-width: 670px) {
+    padding: 10px;
+    max-width: 100%;
+    margin: 10px;
+  }
 `
 
 export const ModalContent = styled.div`
@@ -19,6 +25,11 @@ export const ModalContent = styled.div`
   gap: 20px;
   align-items: stretch;
   margin-left: 200px;
+
+  @media (max-width: 670px) {
+    flex-direction: column;
+    margin-left: 0;
+  }
 `
 
 export const ModalInfo = styled.div`
@@ -28,18 +39,28 @@ export const ModalInfo = styled.div`
   justify-content: flex-start;
 
   h1 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   p {
-    font-size: 16px;
-    margin: 8px 0;
+    font-size: 14px;
+    margin: 6px 0;
   }
 
   strong {
     font-weight: bold;
+  }
+
+  @media (max-width: 670px) {
+    h1 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 12px;
+    }
   }
 `
 export const ImageContainer = styled.div`
@@ -51,6 +72,13 @@ export const ImageContainer = styled.div`
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   overflow: hidden;
+
+  @media (max-width: 670px) {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 8px 8px 0 0;
+  }
 `
 
 export const ModalImage = styled.img`
@@ -59,12 +87,20 @@ export const ModalImage = styled.img`
   object-fit: cover;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
+
+  @media (max-width: 670px) {
+    height: 100%;
+  }
 `
 
 export const Span = styled.span`
   font-weight: 600;
   color: ${(props) => props.theme['purple-600']};
   margin-right: 5px;
+
+  @media (max-width: 670px) {
+    font-size: 14px;
+  }
 `
 
 export const Box = styled.div`
@@ -73,6 +109,11 @@ export const Box = styled.div`
   padding: 6px 12px;
   background: ${(props) => props.theme['gray-100']};
   border: 1px solid ${(props) => props.theme['purple-200']};
+
+  @media (max-width: 670px) {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
 `
 
 export const TitleRecipe = styled.h2`
@@ -80,20 +121,38 @@ export const TitleRecipe = styled.h2`
   color: ${(props) => props.theme['gray-600']};
   margin-top: -20px;
   font-weight: 900;
+
+  @media (max-width: 670px) {
+    font-size: 20px;
+    margin-top: 0;
+  }
 `
 
 export const LikesQtd = styled.p`
   font-size: 16px;
   color: ${(props) => props.theme['gray-500']};
+
+  @media (max-width: 670px) {
+    font-size: 14px;
+  }
 `
 
 export const BasicInformation = styled.div`
   display: flex;
   gap: 20px;
+
+  @media (max-width: 670px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `
 
 export const EssentialInformation = styled.div`
   margin-top: 10px;
+
+  @media (max-width: 670px) {
+    margin-top: 5px;
+  }
 `
 export const GroupTags = styled.ul`
   margin-top: 10px;
@@ -102,6 +161,11 @@ export const GroupTags = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+
+  @media (max-width: 670px) {
+    justify-content: center;
+    gap: 3px;
+  }
 `
 
 export const Tag = styled.li`
@@ -113,6 +177,11 @@ export const Tag = styled.li`
   border-radius: 8px;
   font-size: 10px;
   font-weight: bold;
+
+  @media (max-width: 670px) {
+    font-size: 9px;
+    padding: 3px;
+  }
 `
 
 export const DialogClose = styled(Dialog.Close)`
@@ -127,5 +196,11 @@ export const DialogClose = styled(Dialog.Close)`
 
   &:hover {
     color: ${(props) => props.theme['gray-700']};
+  }
+
+  @media (max-width: 670px) {
+    font-size: 20px;
+    right: 10px;
+    color: ${(props) => props.theme['gray-900']};
   }
 `

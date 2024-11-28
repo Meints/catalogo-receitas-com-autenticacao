@@ -20,7 +20,6 @@ import { TokenSchema } from 'src/auth/jwt.strategy';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('/user')
-// @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

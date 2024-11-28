@@ -27,6 +27,7 @@ export const AvatarFallback = styled(Avatar.Fallback)`
   justify-content: center;
   font-size: 18px;
   font-weight: bold;
+  background: ${(props) => props.theme['gray-100']};
 `
 
 export const MenubarRoot = styled(Menubar.Root)`

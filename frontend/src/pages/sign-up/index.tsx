@@ -19,8 +19,11 @@ import {
 } from './styles'
 import Logo from '../../assets/logo.png'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 export function SignUp() {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -31,19 +34,24 @@ export function SignUp() {
     event.preventDefault()
 
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem!')
+      toast.error('As senhas não coincidem!')
       return
     }
 
     try {
-      const response = await axios.post('http://localhost:3333/users', {
+      const response = await axios.post('http://localhost:3333/user', {
         name,
         email,
         password,
       })
-      console.log('Cadastro realizado com sucesso:', response.data)
+
+      if (response.data) {
+        toast.success('Cadastro realizado com sucesso!')
+        navigate('/login')
+      }
     } catch (error) {
-      console.error('Erro ao cadastrar usuário:', error)
+      toast.error('Erro ao cadastrar usuário.')
+      console.log(error)
     }
   }
 

@@ -6,7 +6,9 @@ export const updateUserSchema = z.object({
   password: z
     .string()
     .min(6, 'A senha deve ter no mínimo 6 caracteres.')
-    .optional(),
+    .optional()
+    .or(z.literal('')),
+  photoKey: z.string().optional().or(z.literal('')),
 })
 
 export type UpdateUserForm = z.infer<typeof updateUserSchema>
