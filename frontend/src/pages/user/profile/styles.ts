@@ -80,7 +80,6 @@ export const IconWrapper = styled.div`
   right: 10px;
   transform: translateY(-50%);
   color: ${(props) => props.theme['gray-500']};
-  cursor: pointer;
 `
 
 export const EyeIconWrapper = styled(IconWrapper)`

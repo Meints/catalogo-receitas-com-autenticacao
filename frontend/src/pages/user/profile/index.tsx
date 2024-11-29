@@ -16,7 +16,7 @@ import {
 import { UserService } from '../../../services/user'
 import { UpdateUserForm, updateUserSchema } from './validation'
 
-import { Envelope, Eye, EyeSlash, User } from '@phosphor-icons/react'
+import { Envelope, Eye, EyeSlash, User, Camera } from '@phosphor-icons/react'
 
 export function Profile() {
   const form = useForm<UpdateUserForm>({
@@ -25,6 +25,9 @@ export function Profile() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  const [userId, setUserId] = useState<string>('')
+  const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [previewPhoto, setPreviewPhoto] = useState<string | null>(null)
 
   const getUser = useCallback(async () => {
@@ -33,6 +36,7 @@ export function Profile() {
       form.setValue('name', data.name)
       form.setValue('email', data.email)
       form.setValue('password', '')
+      setUserId(data.id)
     } catch (error) {
       console.log(error)
       toast.error('Erro ao carregar dados do perfil.')
@@ -46,7 +50,7 @@ export function Profile() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      form.setValue('photoKey', file)
+      setPhotoFile(file)
       setPreviewPhoto(URL.createObjectURL(file))
     }
   }
@@ -60,6 +64,11 @@ export function Profile() {
       }
 
       await UserService.update(payload)
+
+      if (photoFile) {
+        await UserService.uploadUserPhoto(userId, photoFile)
+      }
+
       toast.success('Perfil atualizado com sucesso!')
     } catch (error) {
       console.log(error)
@@ -68,8 +77,6 @@ export function Profile() {
       setIsLoading(false)
     }
   }
-
-  console.log(getUser())
 
   return (
     <ProfileContainer>
@@ -83,7 +90,7 @@ export function Profile() {
               required
             />
             <IconWrapper>
-              <User size={20} />
+              <User size={18} />
             </IconWrapper>
           </FormControl>
         </FormField>
@@ -99,7 +106,7 @@ export function Profile() {
               required
             />
             <IconWrapper>
-              <Envelope size={20} />
+              <Envelope size={18} />
             </IconWrapper>
           </FormControl>
         </FormField>
@@ -113,7 +120,7 @@ export function Profile() {
               type={showPassword ? 'text' : 'password'}
             />
             <IconWrapper onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
+              {showPassword ? <Eye size={18} /> : <EyeSlash size={18} />}
             </IconWrapper>
           </FormControl>
         </FormField>
@@ -126,8 +133,11 @@ export function Profile() {
               accept="image/*"
               onChange={handleFileChange}
             />
+            <IconWrapper>
+              <Camera size={18} />
+            </IconWrapper>
           </FormControl>
-          {previewPhoto && <img src={previewPhoto} alt="Preview" width={200} />}
+          {previewPhoto && <img src={previewPhoto} alt="Preview" width={100} />}
         </FormField>
 
         <FormSubmit asChild>

@@ -20,6 +20,21 @@ export const UserService = {
     return response.data
   },
 
+  uploadUserPhoto: async (userId: string, file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await http.post<ISuccessResponse>(
+      `/user/${userId}/file`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    )
+    return response.data
+  },
+
   getSignedUrl: async (userId: string): Promise<string> => {
     const response = await http.get<{ signedUrl: string }>(
       `/user/signed_url/${userId}`,
