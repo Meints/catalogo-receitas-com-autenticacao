@@ -7,8 +7,8 @@ export interface IRecipe {
   preparationTime: number
   difficulty: DifficultyRecipe
   isDeleted: boolean
-  deteledAt: Date
-  instruction: string
+  deletedAt: Date
+  instructions: string
   ingredients: string
   tags: TagsRecipe[]
   createdAt: Date

@@ -11,6 +11,7 @@ import {
   UploadedFile,
   ParseIntPipe,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
@@ -18,6 +19,9 @@ import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
 import { RecipeFilterParams } from 'src/repositories/recipe.repository';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUser } from 'src/auth/current-user-decorator';
+import { TokenSchema } from 'src/auth/jwt.strategy';
 
 @Controller('/recipes')
 export class RecipeController {
@@ -52,11 +56,6 @@ export class RecipeController {
     return this.recipeService.filterRecipes(filterParams);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recipeService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
     return this.recipeService.update(+id, updateRecipeDto);
@@ -65,5 +64,16 @@ export class RecipeController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.recipeService.remove(+id);
+  }
+
+  @Get('/my-recipes')
+  @UseGuards(JwtAuthGuard)
+  async getMyRecipes(@CurrentUser() user: TokenSchema) {
+    return this.recipeService.findByUser(user.sub.id);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.recipeService.findOne(+id);
   }
 }

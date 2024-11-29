@@ -18,7 +18,7 @@ POST {{baseUrl}}/auth
 Content-Type: application/json
 
 {
-  "email": "auth@teste.com",
+  "email": "angelica@gmail.com",
   "password": "123456"
 }
 
@@ -32,6 +32,14 @@ Content-Type: application/json
   "email": "auth@teste.com",
   "password": "123456"
 }
+
+###
+
+# @name my-recipes
+GET {{baseUrl}}/recipes/my-recipes
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
 
 ###
 

@@ -55,4 +55,5 @@ export type Recipe = {
   deletedAt: Date
   createdAt: Date
   updatedAt: Date
+  photoKey: string
 }

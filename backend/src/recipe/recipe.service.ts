@@ -20,10 +20,6 @@ export class RecipeService {
     return recipe;
   }
 
-  findOne(id: number) {
-    return this.recipeRepository.find({ id });
-  }
-
   findAll() {
     return this.recipeRepository.findMany({});
   }
@@ -46,6 +42,14 @@ export class RecipeService {
 
   remove(id: number) {
     return this.recipeRepository.softDelete({ id });
+  }
+
+  async findByUser(userId: string) {
+    return await this.recipeRepository.findMany({ userId });
+  }
+
+  findOne(id: number) {
+    return this.recipeRepository.find({ id });
   }
 
   async createFile(file: Express.Multer.File, recipeId: number) {
