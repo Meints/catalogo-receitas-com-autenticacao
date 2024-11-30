@@ -56,4 +56,12 @@ export type Recipe = {
   createdAt: Date
   updatedAt: Date
   photoKey: string
+  _count: {
+    likes: number
+  }
+}
+
+export enum OrderBy {
+  MostPopular = 'mostPopular',
+  MostRecent = 'mostRecent',
 }

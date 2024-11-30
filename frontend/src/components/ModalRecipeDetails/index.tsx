@@ -25,7 +25,6 @@ export function ModalRecipeDetails({
   recipe,
   image,
 }: Readonly<ModalRecipeDetailsProps>) {
-  console.log(recipe.instructions)
   return (
     <ModalContainer>
       <ImageContainer>
@@ -34,7 +33,7 @@ export function ModalRecipeDetails({
       <ModalContent>
         <ModalInfo>
           <TitleRecipe>{recipe.title}</TitleRecipe>
-          <LikesQtd>0 curtidas</LikesQtd>
+          <LikesQtd>{recipe?._count?.likes} curtidas</LikesQtd>
           <BasicInformation>
             <p>
               <Span>Dificuldade:</Span>

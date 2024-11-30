@@ -15,6 +15,11 @@ export const RecipeService = {
     return response.data
   },
 
+  remove: async (id: number) => {
+    const response = await http.delete<ISuccessResponse>(`/recipes/${id}`)
+    return response.data
+  },
+
   getMyRecipes: async (): Promise<Recipe[]> => {
     const response = await http.get<Recipe[]>('/recipes/my-recipes')
     return response.data

@@ -1,4 +1,4 @@
-import { DifficultyRecipe, TagsRecipe } from '../types/models'
+import { DifficultyRecipe, Recipe, TagsRecipe } from '../types/models'
 
 export interface IRecipe {
   id: number
@@ -20,6 +20,7 @@ export interface ILike {
   id: string
   userId: string
   recipeId: number
+  recipe: Recipe
 }
 
 export interface IUser {

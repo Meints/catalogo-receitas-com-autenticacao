@@ -2,7 +2,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 export class BaseRepository<T> {
   constructor(
-    private readonly prisma: PrismaService,
+    protected readonly prisma: PrismaService,
     private readonly database: string,
   ) {
     this.prisma = prisma;

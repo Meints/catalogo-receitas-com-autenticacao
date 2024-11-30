@@ -56,6 +56,7 @@ export function MyRecipes() {
               key={recipe.id}
               image={signedUrls[recipe.id]}
               recipe={recipe}
+              isOwner
             />
           ))}
         </RecipesContainer>

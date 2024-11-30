@@ -20,14 +20,6 @@ export class RecipeService {
     return recipe;
   }
 
-  findAll() {
-    return this.recipeRepository.findMany({});
-  }
-
-  filterRecipes(filterParams: RecipeFilterParams) {
-    return this.recipeRepository.filterRecipes(filterParams);
-  }
-
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
     return this.recipeRepository.update<
       Prisma.RecipesUncheckedUpdateInput,
@@ -40,16 +32,35 @@ export class RecipeService {
     );
   }
 
+  findAll() {
+    return this.recipeRepository.findMany<
+      Prisma.RecipesWhereInput,
+      Prisma.RecipesInclude,
+      Prisma.RecipesOrderByRelationAggregateInput
+    >({ isDeleted: false });
+  }
+
+  filterRecipes(filterParams: RecipeFilterParams) {
+    return this.recipeRepository.findRecipes(filterParams);
+  }
+
   remove(id: number) {
     return this.recipeRepository.softDelete({ id });
   }
 
   async findByUser(userId: string) {
-    return await this.recipeRepository.findMany({ userId });
+    return await this.recipeRepository.findMany<
+      Prisma.RecipesWhereInput,
+      Prisma.RecipesInclude,
+      Prisma.RecipesOrderByRelationAggregateInput
+    >({ isDeleted: false, userId });
   }
 
   findOne(id: number) {
-    return this.recipeRepository.find({ id });
+    return this.recipeRepository.find<
+      Prisma.RecipesWhereInput,
+      Prisma.RecipesInclude
+    >({ id });
   }
 
   async createFile(file: Express.Multer.File, recipeId: number) {

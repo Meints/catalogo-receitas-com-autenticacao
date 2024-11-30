@@ -5,7 +5,6 @@ export const CreateRecipeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 100px);
   width: 100%;
   padding: 20px;
 `
@@ -28,27 +27,6 @@ export const FormContainer = styled(Form.Root)`
   @media (max-width: 480px) {
     width: 100%;
     padding: 20px 10px;
-  }
-`
-
-export const RecipeForm = styled(Form.Root)`
-  max-width: 80vw;
-  background: ${(props) => props.theme.white};
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  width: 40%;
-  padding: 40px 20px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: 768px) {
-    width: 80%;
-    padding: 30px 20px;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
-    padding: 20px;
   }
 `
 
@@ -186,7 +164,7 @@ export const TagContainer = styled.div`
   width: 100%;
 
   @media (max-width: 480px) {
-    grid-template-rows: repeat(10, auto);
+    grid-template-rows: repeat(9, auto);
   }
 
   @media (max-width: 400px) {

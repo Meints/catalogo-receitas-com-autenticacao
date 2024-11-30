@@ -37,6 +37,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       const response = await AuthService.login(email, senha)
 
       setToken(response.data.access_token)
+      console.log(response.data)
       return response.data
     },
     [setToken],

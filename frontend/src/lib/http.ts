@@ -30,10 +30,6 @@ const http: AxiosInstance = axios.create({
 http.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.clear()
-      window.location.href = '/'
-    }
     return Promise.reject(error)
   },
 )

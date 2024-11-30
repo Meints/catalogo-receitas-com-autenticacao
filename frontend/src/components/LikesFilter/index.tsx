@@ -1,10 +1,21 @@
+import { useSearchParams } from 'react-router-dom'
 import { Label, LikesFilterContainer, Radio, RadioWrapper } from './styles'
+import { OrderBy } from '../../types/models'
 
-type LikesFilterProps = {
-  onChange: (value: string) => void
-}
+export function LikesFilter() {
+  const [searchParams, setSearchParams] = useSearchParams()
 
-export function LikesFilter({ onChange }: Readonly<LikesFilterProps>) {
+  function onChange(value: OrderBy) {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev)
+      if (value) {
+        params.set('orderBy', value)
+      } else {
+        params.delete('orderBy')
+      }
+      return params
+    })
+  }
   return (
     <LikesFilterContainer>
       <RadioWrapper>
@@ -12,8 +23,9 @@ export function LikesFilter({ onChange }: Readonly<LikesFilterProps>) {
           <Radio
             type="radio"
             name="likesFilter"
-            value="recent"
-            onChange={(e) => onChange(e.target.value)}
+            value={OrderBy.MostRecent}
+            checked={searchParams.get('orderBy') === OrderBy.MostRecent}
+            onChange={(e) => onChange(e.target.value as OrderBy)}
           />
           Ordenar por recentes
         </Label>
@@ -23,8 +35,9 @@ export function LikesFilter({ onChange }: Readonly<LikesFilterProps>) {
           <Radio
             type="radio"
             name="likesFilter"
-            value="like"
-            onChange={(e) => onChange(e.target.value)}
+            value={OrderBy.MostPopular}
+            checked={searchParams.get('orderBy') === OrderBy.MostPopular}
+            onChange={(e) => onChange(e.target.value as OrderBy)}
           />
           Ordenar por curtidas
         </Label>

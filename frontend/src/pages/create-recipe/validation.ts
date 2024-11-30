@@ -3,7 +3,7 @@ import { DifficultyRecipe, TagsRecipe } from '../../types/models'
 
 export const createRecipeSchema = z.object({
   title: z.string().min(3, 'O título deve ter no mínimo 3 caracteres.'),
-  preparationTime: z.number().positive('O tempo de preparo deve ser positivo.'),
+  prepTime: z.number().positive('O tempo de preparo deve ser positivo.'),
   difficulty: z.enum(
     Object.keys(DifficultyRecipe) as [keyof typeof DifficultyRecipe],
   ),

@@ -1,19 +1,29 @@
+import { useSearchParams } from 'react-router-dom'
 import { Input, InputContainer } from './styles'
 
-type PrepTimeFilterProps = {
-  onChange: (value: number) => void
-}
+export function PrepTimeFilter() {
+  const [searchParams, setSearchParams] = useSearchParams()
 
-export function PrepTimeFilter({ onChange }: Readonly<PrepTimeFilterProps>) {
+  function onChange(value: number) {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev)
+      if (value) {
+        params.set('prepTime', value.toString())
+      } else {
+        params.delete('prepTime')
+      }
+      return params
+    })
+  }
   return (
     <InputContainer>
       <Input
+        value={searchParams.get('prepTime') ?? ''}
         id="prep-time"
         type="number"
         placeholder="Preparo em minutos"
-        step={5}
-        min={5}
-        onChange={(e) => onChange(parseInt(e.target.value))}
+        min={1}
+        onChange={(e) => onChange(Number(e.target.value))}
       />
     </InputContainer>
   )

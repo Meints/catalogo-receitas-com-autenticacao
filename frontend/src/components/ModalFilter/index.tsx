@@ -1,9 +1,7 @@
-import { DifficultyRecipe, TagsRecipe } from '../../types/models'
 import { DifficultyFilter } from '../DifficultyFilter'
 import { IngredientFilter } from '../IngredientFilter'
 import { LikesFilter } from '../LikesFilter'
 import { PrepTimeFilter } from '../PrepTimeFilter'
-import { FilterState } from '../RecipeSearch'
 import { TagFilter } from '../TagFilter'
 import {
   DialogContainer,
@@ -18,16 +16,7 @@ import {
   FilterGroup,
 } from './styles'
 
-type ModalFilterProps = {
-  handleFilterChange: (
-    field: keyof FilterState,
-    value: string | number | DifficultyRecipe | TagsRecipe[],
-  ) => void
-}
-
-export function ModalFilter({
-  handleFilterChange,
-}: Readonly<ModalFilterProps>) {
+export function ModalFilter() {
   return (
     <DialogContainer>
       <DialogTrigger>+ Filtros</DialogTrigger>
@@ -40,25 +29,15 @@ export function ModalFilter({
           </DialogDescription>
           <FilterContainer>
             <FilterGroup>
-              <LikesFilter
-                onChange={(value) => handleFilterChange('orderBy', value)}
-              />
-              <DifficultyFilter
-                onChange={(value) => handleFilterChange('difficulty', value)}
-              />
+              <LikesFilter />
+              <DifficultyFilter />
             </FilterGroup>
             <FilterGroup>
-              <IngredientFilter
-                onChange={(value) => handleFilterChange('ingredients', value)}
-              />
-              <PrepTimeFilter
-                onChange={(value) => handleFilterChange('prepTime', value)}
-              />
+              <IngredientFilter />
+              <PrepTimeFilter />
             </FilterGroup>
             <FilterGroup>
-              <TagFilter
-                onChange={(value) => handleFilterChange('tags', value)}
-              />
+              <TagFilter />
             </FilterGroup>
           </FilterContainer>
 

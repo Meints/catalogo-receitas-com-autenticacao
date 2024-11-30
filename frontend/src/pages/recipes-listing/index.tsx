@@ -4,8 +4,11 @@ import { Recipe } from '../../types/models'
 import { RecipeCard } from '../../components/RecipeCard'
 import { RecipesContainer } from './styles'
 import { EmptyRecipes } from '../empty-recipes'
+import { useSearchParams } from 'react-router-dom'
 
 export function RecipeListing() {
+  const [searchParams] = useSearchParams()
+
   const [recipes, setRecipes] = useState<Recipe[]>([])
   const [signedUrls, setSignedUrls] = useState<Record<number, string>>({})
 
@@ -32,6 +35,20 @@ export function RecipeListing() {
       fetchSignedUrls()
     }
   }, [recipes])
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3333/recipes?${searchParams.toString()}`,
+        )
+        setRecipes(response.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchRecipes()
+  }, [searchParams])
 
   return (
     <>

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { TitleFilter } from '../TitleFilter'
 import { DifficultyRecipe, TagsRecipe } from '../../types/models'
 import {
@@ -8,10 +7,11 @@ import {
   Button,
 } from './styles'
 import { ModalFilter } from '../ModalFilter'
+import { useSearchParams } from 'react-router-dom'
 
 export type FilterState = {
   title: string
-  prepTime: string
+  prepTime: number | ''
   difficulty: DifficultyRecipe | ''
   ingredients: string
   tags: TagsRecipe[] | []
@@ -19,36 +19,29 @@ export type FilterState = {
 }
 
 export function RecipeSearch() {
-  const [filters, setFilters] = useState<FilterState>({
-    title: '',
-    prepTime: '',
-    difficulty: '',
-    ingredients: '',
-    tags: [],
-    orderBy: '',
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const handleFilterChange = (
-    field: keyof FilterState,
-    value: string | number | DifficultyRecipe | TagsRecipe[],
-  ) => {
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [field]: value }
-      return updatedFilters
-    })
-  }
+  // const handleFilterChange = (
+  //   field: keyof FilterState,
+  //   value: string | number | DifficultyRecipe | TagsRecipe[],
+  // ) => {
+  //   setFilters((prevFilters) => {
+  //     const updatedFilters = { ...prevFilters, [field]: value }
+  //     return updatedFilters
+  //   })
+  // }
 
   const applyFilters = () => {
-    console.log('Filtros aplicados:', filters)
+    console.log('Filtros aplicados:', searchParams)
   }
 
   return (
     <SearchContainer>
       <TitleFilterContainer>
-        <TitleFilter onChange={(value) => handleFilterChange('title', value)} />
+        <TitleFilter />
       </TitleFilterContainer>
       <FiltersGroup>
-        <ModalFilter handleFilterChange={handleFilterChange} />
+        <ModalFilter />
         <Button onClick={applyFilters}>Buscar Receita</Button>
       </FiltersGroup>
     </SearchContainer>

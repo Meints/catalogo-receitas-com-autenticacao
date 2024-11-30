@@ -1,20 +1,31 @@
+import { useSearchParams } from 'react-router-dom'
 import { DifficultyRecipe } from '../../types/models'
 import { InputContainer, Select, Option } from './styles'
 
-type DifficultyFilterProps = {
-  onChange: (value: DifficultyRecipe) => void
-}
+export function DifficultyFilter() {
+  const [searchParams, setSearchParams] = useSearchParams()
 
-export function DifficultyFilter({
-  onChange,
-}: Readonly<DifficultyFilterProps>) {
+  function onChange(value: DifficultyRecipe) {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev)
+      if (value) {
+        params.set('difficulty', value)
+      } else {
+        params.delete('difficulty')
+      }
+      return params
+    })
+  }
   return (
     <InputContainer>
-      <Select onChange={(e) => onChange(e.target.value as DifficultyRecipe)}>
+      <Select
+        value={searchParams.get('difficulty') ?? ''}
+        onChange={(e) => onChange(e.target.value as DifficultyRecipe)}
+      >
         <Option value="">Selecione a dificuldade</Option>
-        <Option value={DifficultyRecipe.EASY}>Fácil</Option>
-        <Option value={DifficultyRecipe.MEDIUM}>Médio</Option>
-        <Option value={DifficultyRecipe.HARD}>Difícil</Option>
+        <Option value="EASY">Fácil</Option>
+        <Option value="MEDIUM">Médio</Option>
+        <Option value="HARD">Difícil</Option>
       </Select>
     </InputContainer>
   )

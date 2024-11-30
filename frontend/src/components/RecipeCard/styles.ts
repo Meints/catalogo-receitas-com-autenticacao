@@ -73,6 +73,32 @@ export const ImageContainer = styled.div`
   height: 200px;
 `
 
+export const IconContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    svg {
+      color: ${(props) => props.theme['purple-500']};
+      transition: all 0.3s ease;
+      height: 20px;
+    }
+
+    &:hover svg {
+      color: ${(props) => props.theme['purple-600']};
+      transform: scale(1.1);
+    }
+  }
+`
+
 export const Image = styled.img`
   width: 100%;
   height: 100%;

@@ -37,6 +37,9 @@ export const ModalInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: 100%;
+  max-height: 400px;
+  overflow-y: auto;
 
   h1 {
     font-size: 22px;
@@ -63,6 +66,7 @@ export const ModalInfo = styled.div`
     }
   }
 `
+
 export const ImageContainer = styled.div`
   position: absolute;
   top: 0;
@@ -119,7 +123,7 @@ export const Box = styled.div`
 export const TitleRecipe = styled.h2`
   font-size: 24px;
   color: ${(props) => props.theme['gray-600']};
-  margin-top: -20px;
+  /* margin-top: -20px; */
   font-weight: 900;
 
   @media (max-width: 670px) {

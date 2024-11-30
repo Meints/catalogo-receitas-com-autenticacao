@@ -64,12 +64,12 @@ export function CreateRecipe() {
           </FormControl>
         </FormField>
 
-        <FormField name="preparationTime">
+        <FormField name="prepTime">
           <FormLabel>Tempo de Preparo (min)</FormLabel>
           <FormControl>
             <FormInput
               type="number"
-              {...form.register('preparationTime')}
+              {...form.register('prepTime')}
               placeholder="Ex: 45"
               min={1}
               required

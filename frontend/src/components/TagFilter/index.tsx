@@ -1,26 +1,34 @@
-import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { TagsRecipe } from '../../types/models'
 import { Checkbox, CheckboxWrapper, Label, TagContainer } from './styles'
+import { useState } from 'react'
 
-type TagFilterProps = {
-  onChange: (value: TagsRecipe[]) => void
-}
-
-export function TagFilter({ onChange }: Readonly<TagFilterProps>) {
-  const [selectedTags, setSelectedTags] = useState<TagsRecipe[]>([])
-
+export function TagFilter() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const tags = Object.entries(TagsRecipe).map(([key, value]) => ({
     key,
     value,
   }))
 
-  const handleCheckboxChange = (tag: TagsRecipe, isChecked: boolean) => {
-    const updatedTags = isChecked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((selectedTag) => selectedTag !== tag)
+  function onChange(value: string) {
+    const params = new URLSearchParams(searchParams)
+    const newSelectedTags = selectedTags.includes(value)
+      ? selectedTags.filter((tag) => tag !== value)
+      : [...selectedTags, value]
 
-    setSelectedTags(updatedTags)
-    onChange(updatedTags)
+    setSelectedTags(newSelectedTags)
+
+    if (newSelectedTags.length > 0) {
+      params.set('tags', newSelectedTags.join(','))
+    } else {
+      params.delete('tags')
+    }
+
+    setSearchParams(params)
+    console.log('Filtros aplicados:', params.toString())
+    console.log('Tag selecionada:', newSelectedTags)
+    console.log('Tags selecionadas:', selectedTags)
   }
 
   return (
@@ -30,11 +38,9 @@ export function TagFilter({ onChange }: Readonly<TagFilterProps>) {
           <Label>
             <Checkbox
               type="checkbox"
-              value={tag.value}
-              checked={selectedTags.includes(tag.value)}
-              onChange={(e) =>
-                handleCheckboxChange(tag.value, e.target.checked)
-              }
+              value={tag.key}
+              checked={selectedTags.includes(tag.key as TagsRecipe)}
+              onChange={(e) => onChange(e.target.value)}
             />
             {tag.value}
           </Label>

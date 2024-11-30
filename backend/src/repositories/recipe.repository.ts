@@ -6,7 +6,8 @@ import { OrderBy } from 'src/enum/orderby';
 
 export interface RecipeFilterParams {
   title?: string;
-  tags?: Tags[];
+  tags?: Tags;
+  ingredients?: string;
   difficulty?: Difficulty;
   prepTime?: number;
   orderBy?: OrderBy;
@@ -14,21 +15,26 @@ export interface RecipeFilterParams {
 
 @Injectable()
 export class RecipeRepository extends BaseRepository<Recipes> {
-  constructor(prisma: PrismaService) {
+  constructor(protected readonly prisma: PrismaService) {
     super(prisma, 'recipes');
   }
 
-  async filterRecipes({
+  async findRecipes({
     title,
     difficulty,
+    ingredients,
     prepTime,
     tags,
     orderBy,
   }: RecipeFilterParams): Promise<Recipes[] | null> {
-    const where: any = { isDeleted: false };
+    const where: Prisma.RecipesWhereInput = { isDeleted: false };
 
     if (title) {
       where.title = { contains: title, mode: 'insensitive' };
+    }
+
+    if (ingredients) {
+      where.ingredients = { contains: ingredients, mode: 'insensitive' };
     }
 
     if (difficulty) {
@@ -36,12 +42,12 @@ export class RecipeRepository extends BaseRepository<Recipes> {
     }
 
     if (prepTime) {
-      where.prepTime = prepTime;
+      where.preparationTime = Number(prepTime);
     }
 
     if (tags && tags.length > 0) {
       where.tags = {
-        hasSome: tags,
+        hasSome: tags.split(',') as Tags[],
       };
     }
 
@@ -58,10 +64,14 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       };
     }
 
-    return this.findMany<
-      Prisma.RecipesUncheckedUpdateInput,
-      Prisma.RecipesWhereUniqueInput,
-      Prisma.RecipesOrderByWithAggregationInput
-    >(where, undefined, order);
+    return this.prisma.recipes.findMany({
+      where,
+      include: {
+        _count: {
+          select: { likes: true },
+        },
+      },
+      orderBy: order,
+    });
   }
 }

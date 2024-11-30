@@ -6,6 +6,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class RecipeLikesRepository extends BaseRepository<RecipeLikes> {
   constructor(prisma: PrismaService) {
-    super(prisma, 'recipe_likes');
+    super(prisma, 'recipeLikes');
   }
 }
