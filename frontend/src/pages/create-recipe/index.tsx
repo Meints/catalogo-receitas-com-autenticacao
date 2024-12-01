@@ -1,19 +1,15 @@
 import { useState } from 'react'
-import { DifficultyRecipe, TagsRecipe } from '../../types/models'
+import { TagsRecipe } from '../../types/models'
 import {
   Button,
   Checkbox,
   CheckboxWrapper,
   CreateRecipeContainer,
   FormContainer,
-  FormControl,
   FormField,
-  FormInput,
   FormLabel,
   FormSubmit,
-  IconWrapper,
   LabelTags,
-  StyledTextArea,
   TagContainer,
 } from './styles'
 import { useForm } from 'react-hook-form'
@@ -22,7 +18,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { RecipeService } from '../../services/recipe'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { Clock, NotePencil } from '@phosphor-icons/react'
+import { Camera, Clock, NotePencil } from '@phosphor-icons/react'
+import { FormFieldComponent } from '../../components/FormField'
 
 export function CreateRecipe() {
   const navigate = useNavigate()
@@ -31,11 +28,26 @@ export function CreateRecipe() {
   })
 
   const [isLoading, setIsLoading] = useState(false)
+  const [photoFile, setPhotoFile] = useState<File | null>(null)
+  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setPhotoFile(file)
+      setPreviewPhoto(URL.createObjectURL(file))
+    }
+  }
 
   const handleSubmit = async (data: CreateRecipeForm) => {
     setIsLoading(true)
     try {
-      await RecipeService.create(data)
+      const createdRecipe = await RecipeService.create(data)
+
+      if (photoFile) {
+        await RecipeService.uploadRecipePhoto(createdRecipe.id, photoFile)
+      }
+
       toast.success('Receita criada com sucesso!')
       form.reset()
       navigate('/user/my-recipes')
@@ -50,7 +62,15 @@ export function CreateRecipe() {
   return (
     <CreateRecipeContainer>
       <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField name="title">
+        <FormFieldComponent
+          name="title"
+          label="Título"
+          placeholder="Digite o título da receita"
+          register={form.register('title')}
+          icon={<NotePencil size={20} />}
+          required
+        />
+        {/* <FormField name="title">
           <FormLabel>Título</FormLabel>
           <FormControl>
             <FormInput
@@ -62,9 +82,19 @@ export function CreateRecipe() {
               <NotePencil size={20} />
             </IconWrapper>
           </FormControl>
-        </FormField>
+        </FormField> */}
 
-        <FormField name="prepTime">
+        <FormFieldComponent
+          name="prepTime"
+          label="Tempo de Preparo (min)"
+          type="number"
+          placeholder="Ex: 45"
+          min={1}
+          register={form.register('preparationTime', { valueAsNumber: true })}
+          icon={<Clock size={20} />}
+          required
+        />
+        {/* <FormField name="prepTime">
           <FormLabel>Tempo de Preparo (min)</FormLabel>
           <FormControl>
             <FormInput
@@ -78,9 +108,22 @@ export function CreateRecipe() {
               <Clock size={20} />
             </IconWrapper>
           </FormControl>
-        </FormField>
+        </FormField> */}
 
-        <FormField name="difficulty">
+        <FormFieldComponent
+          label="Dificuldade"
+          name="difficulty"
+          type="select"
+          register={form.register('difficulty')}
+          options={[
+            { value: 'EASY', label: 'Fácil' },
+            { value: 'MEDIUM', label: 'Médio' },
+            { value: 'HARD', label: 'Difícil' },
+          ]}
+          required
+        />
+
+        {/* <FormField name="difficulty">
           <FormLabel>Dificuldade</FormLabel>
           <FormControl>
             <select {...form.register('difficulty')} required>
@@ -89,9 +132,17 @@ export function CreateRecipe() {
               <option value={DifficultyRecipe.HARD}>Difícil</option>
             </select>
           </FormControl>
-        </FormField>
+        </FormField> */}
 
-        <FormField name="ingredients">
+        <FormFieldComponent
+          name="ingredients"
+          label="Ingredientes (Separados por vírgula)"
+          placeholder="Digite os ingredientes"
+          register={form.register('ingredients')}
+          icon={<NotePencil size={20} />}
+          required
+        />
+        {/* <FormField name="ingredients">
           <FormLabel>Ingredientes (Separados por vírgula)</FormLabel>
           <FormControl>
             <FormInput
@@ -100,9 +151,17 @@ export function CreateRecipe() {
               required
             />
           </FormControl>
-        </FormField>
+        </FormField> */}
 
-        <FormField name="instructions">
+        <FormFieldComponent
+          name="instructions"
+          label="Modo de Preparo"
+          placeholder="Digite as instruções de preparo"
+          register={form.register('instructions')}
+          required
+          isTextArea
+        />
+        {/* <FormField name="instructions">
           <FormLabel>Modo de Preparo</FormLabel>
           <FormControl>
             <StyledTextArea
@@ -111,7 +170,7 @@ export function CreateRecipe() {
               required
             />
           </FormControl>
-        </FormField>
+        </FormField> */}
 
         <FormField name="tags">
           <FormLabel>Tags</FormLabel>
@@ -122,11 +181,18 @@ export function CreateRecipe() {
                   <Checkbox
                     type="checkbox"
                     value={key}
-                    checked={form.watch('tags')?.includes(key) || false}
+                    checked={
+                      form
+                        .watch('tags')
+                        ?.includes(key as keyof typeof TagsRecipe) || false
+                    }
                     onChange={(e) => {
-                      const currentTags = form.getValues('tags') || []
+                      const currentTags =
+                        (form.getValues(
+                          'tags',
+                        ) as (keyof typeof TagsRecipe)[]) || []
                       const updatedTags = e.target.checked
-                        ? [...currentTags, key]
+                        ? [...currentTags, key as keyof typeof TagsRecipe]
                         : currentTags.filter((tag) => tag !== key)
 
                       form.setValue('tags', updatedTags)
@@ -139,7 +205,17 @@ export function CreateRecipe() {
           </TagContainer>
         </FormField>
 
-        <FormField name="photo">
+        <FormFieldComponent
+          name="photo"
+          label="Foto da Receita"
+          type="file"
+          onChange={handleFileChange}
+          accept="image/*"
+          icon={<Camera size={20} />}
+        />
+
+        {previewPhoto && <img src={previewPhoto} alt="Preview" width={100} />}
+        {/* <FormField name="photo">
           <FormLabel>Foto</FormLabel>
           <FormControl>
             <input
@@ -148,7 +224,7 @@ export function CreateRecipe() {
               accept="image/*"
             />
           </FormControl>
-        </FormField>
+        </FormField> */}
 
         <FormSubmit asChild>
           <Button type="submit" disabled={isLoading}>

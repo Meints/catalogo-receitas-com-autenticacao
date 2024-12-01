@@ -11,12 +11,33 @@ export function RecipeListing() {
 
   const [recipes, setRecipes] = useState<Recipe[]>([])
   const [signedUrls, setSignedUrls] = useState<Record<number, string>>({})
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    lastPage: 1,
+    next: null,
+    prev: null,
+  })
+  const [loading, setLoading] = useState(false)
+
+  const fetchRecipes = async (page: number = 1) => {
+    setLoading(true)
+    try {
+      const response = await axios.get(`http://localhost:3333/recipes`, {
+        params: { page, ...Object.fromEntries(searchParams.entries()) },
+      })
+      setRecipes(response.data.data)
+      setPagination(response.data.meta)
+      console.log(pagination)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    axios.get('http://localhost:3333/recipes').then((response) => {
-      setRecipes(response.data)
-    })
-  }, [])
+    fetchRecipes(pagination.currentPage)
+  }, [searchParams])
 
   useEffect(() => {
     const fetchSignedUrls = async () => {
@@ -36,35 +57,53 @@ export function RecipeListing() {
     }
   }, [recipes])
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3333/recipes?${searchParams.toString()}`,
-        )
-        setRecipes(response.data)
-      } catch (error) {
-        console.error(error)
-      }
+  const handleNextPage = () => {
+    if (pagination.next) {
+      fetchRecipes(pagination.next)
     }
-    fetchRecipes()
-  }, [searchParams])
+  }
+
+  const handlePrevPage = () => {
+    if (pagination.prev) {
+      fetchRecipes(pagination.prev)
+    }
+  }
+
+  let content
+  if (loading) {
+    content = <p>Carregando...</p>
+  } else if (recipes.length > 0) {
+    content = (
+      <RecipesContainer>
+        {recipes.map((recipe) => (
+          <RecipeCard
+            key={recipe.id}
+            image={signedUrls[recipe.id]}
+            recipe={recipe}
+          />
+        ))}
+      </RecipesContainer>
+    )
+  } else {
+    content = <EmptyRecipes />
+  }
 
   return (
     <>
-      {recipes.length > 0 ? (
-        <RecipesContainer>
-          {recipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              image={signedUrls[recipe.id]}
-              recipe={recipe}
-            />
-          ))}
-        </RecipesContainer>
-      ) : (
-        <EmptyRecipes />
-      )}
+      {content}
+
+      <div>
+        <button onClick={handlePrevPage} disabled={!pagination.prev}>
+          Anterior
+        </button>
+        <button onClick={handleNextPage} disabled={!pagination.next}>
+          Próxima
+        </button>
+      </div>
+
+      <p>
+        Página {pagination.currentPage} de {pagination.lastPage}
+      </p>
     </>
   )
 }

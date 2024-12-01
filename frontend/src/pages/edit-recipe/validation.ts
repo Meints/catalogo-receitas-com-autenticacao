@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { DifficultyRecipe, TagsRecipe } from '../../types/models'
 
-export const createRecipeSchema = z.object({
+export const updateRecipeSchema = z.object({
   title: z.string().min(3, 'O título deve ter no mínimo 3 caracteres.'),
   preparationTime: z
     .number()
@@ -21,4 +21,4 @@ export const createRecipeSchema = z.object({
   photoKey: z.string().optional().or(z.literal('')),
 })
 
-export type CreateRecipeForm = z.infer<typeof createRecipeSchema>
+export type UpdateUserForm = z.infer<typeof updateRecipeSchema>

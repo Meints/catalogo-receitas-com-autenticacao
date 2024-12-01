@@ -50,16 +50,22 @@ export function MyRecipes() {
     <>
       <h1>Minhas Receitas</h1>
       {recipes.length > 0 ? (
-        <RecipesContainer>
-          {recipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              image={signedUrls[recipe.id]}
-              recipe={recipe}
-              isOwner
-            />
-          ))}
-        </RecipesContainer>
+        <>
+          <p>
+            Ao clicar na lixeira, você apagará <b>permanentemente</b> a sua
+            receita!
+          </p>
+          <RecipesContainer>
+            {recipes.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                image={signedUrls[recipe.id]}
+                recipe={recipe}
+                isOwner
+              />
+            ))}
+          </RecipesContainer>
+        </>
       ) : (
         <p>Você ainda não tem receitas cadastradas.</p>
       )}

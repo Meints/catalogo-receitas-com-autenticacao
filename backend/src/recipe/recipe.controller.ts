@@ -22,6 +22,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/current-user-decorator';
 import { TokenSchema } from 'src/auth/jwt.strategy';
+import { ApiPaginatedResponse } from 'src/commom/decorator/ApiPaginatedResponse';
+import { RecipeDto } from './dto/recipe.dto';
 
 @Controller('/recipes')
 export class RecipeController {
@@ -44,6 +46,7 @@ export class RecipeController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(JwtAuthGuard)
   async create(
     @Body() createRecipeDto: CreateRecipeDto,
   ): Promise<SuccessResponseDTO> {
@@ -52,16 +55,22 @@ export class RecipeController {
   }
 
   @Get()
-  async filterRecipes(@Query() filterParams: RecipeFilterParams) {
-    return this.recipeService.filterRecipes(filterParams);
+  @ApiPaginatedResponse(RecipeDto)
+  async filterRecipes(
+    @Query() filterParams: RecipeFilterParams,
+    @Query('page') page: number,
+  ) {
+    return this.recipeService.filterRecipes(filterParams, page, 4);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
     return this.recipeService.update(+id, updateRecipeDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.recipeService.remove(+id);
   }
@@ -73,6 +82,7 @@ export class RecipeController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.recipeService.findOne(+id);
   }

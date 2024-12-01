@@ -11,4 +11,11 @@ export const createUserSchema = z.object({
   confirmPassword: z.string().min(6),
 })
 
+export interface ISignUpFields {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
 export type CreateUserForm = z.infer<typeof createUserSchema>

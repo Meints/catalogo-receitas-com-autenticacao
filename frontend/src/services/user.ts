@@ -1,12 +1,21 @@
 import { ISuccessResponse } from '../interfaces/routes'
 import { IUser } from '../interfaces/schema'
 import http from '../lib/http'
-import { CreateUserForm } from '../pages/sign-up/validation'
 import { UpdateUserForm } from '../pages/user/profile/validation'
 
+type SignUpData = {
+  name: string
+  email: string
+  password: string
+}
+
 export const UserService = {
-  signUp: async (data: CreateUserForm) => {
-    const response = await http.post<ISuccessResponse>('/user', data)
+  signUp: async ({ name, email, password }: SignUpData) => {
+    const response = await http.post<ISuccessResponse>('/user', {
+      name,
+      email,
+      password,
+    })
     return response.data
   },
 

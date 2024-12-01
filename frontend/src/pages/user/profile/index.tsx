@@ -1,22 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'react-toastify'
-import {
-  Button,
-  FormInput,
-  FormContainer,
-  FormField,
-  FormLabel,
-  FormSubmit,
-  FormControl,
-  IconWrapper,
-  ProfileContainer,
-} from './styles'
+import { Button, FormContainer, FormSubmit, ProfileContainer } from './styles'
 import { UserService } from '../../../services/user'
 import { UpdateUserForm, updateUserSchema } from './validation'
 
-import { Envelope, Eye, EyeSlash, User, Camera } from '@phosphor-icons/react'
+import { Envelope, User, Camera } from '@phosphor-icons/react'
+import { FormFieldComponent } from '../../../components/FormField'
 
 export function Profile() {
   const form = useForm<UpdateUserForm>({
@@ -24,8 +15,6 @@ export function Profile() {
   })
 
   const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-
   const [userId, setUserId] = useState<string>('')
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [previewPhoto, setPreviewPhoto] = useState<string | null>(null)
@@ -81,64 +70,39 @@ export function Profile() {
   return (
     <ProfileContainer>
       <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField name="name">
-          <FormLabel>Nome</FormLabel>
-          <FormControl>
-            <FormInput
-              {...form.register('name')}
-              placeholder="Digite seu nome"
-              required
-            />
-            <IconWrapper>
-              <User size={18} />
-            </IconWrapper>
-          </FormControl>
-        </FormField>
+        <FormFieldComponent
+          label="Nome"
+          name="name"
+          register={form.register('name')}
+          icon={<User size={20} />}
+        />
 
-        <FormField name="email">
-          <FormLabel>E-mail</FormLabel>
-          <FormControl>
-            <FormInput
-              {...form.register('email')}
-              placeholder="E-mail"
-              disabled
-              readOnly
-              required
-            />
-            <IconWrapper>
-              <Envelope size={18} />
-            </IconWrapper>
-          </FormControl>
-        </FormField>
+        <FormFieldComponent
+          label="E-mail"
+          name="email"
+          register={form.register('email')}
+          icon={<Envelope size={20} />}
+          disabled
+        />
 
-        <FormField name="password">
-          <FormLabel>Atualizar Senha</FormLabel>
-          <FormControl>
-            <FormInput
-              {...form.register('password')}
-              placeholder="Digite a nova senha"
-              type={showPassword ? 'text' : 'password'}
-            />
-            <IconWrapper onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <Eye size={18} /> : <EyeSlash size={18} />}
-            </IconWrapper>
-          </FormControl>
-        </FormField>
+        <FormFieldComponent
+          label="Senha"
+          name="password"
+          type="password"
+          placeholder="Digite a nova senha"
+          register={form.register('password')}
+        />
 
-        <FormField name="photo">
-          <FormLabel>Foto do Usuário</FormLabel>
-          <FormControl>
-            <FormInput
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            <IconWrapper>
-              <Camera size={18} />
-            </IconWrapper>
-          </FormControl>
-          {previewPhoto && <img src={previewPhoto} alt="Preview" width={100} />}
-        </FormField>
+        <FormFieldComponent
+          name="photo"
+          label="Foto do Usuário"
+          type="file"
+          onChange={handleFileChange}
+          accept="image/*"
+          icon={<Camera size={20} />}
+        />
+
+        {previewPhoto && <img src={previewPhoto} alt="Preview" width={100} />}
 
         <FormSubmit asChild>
           <Button type="submit" disabled={isLoading}>

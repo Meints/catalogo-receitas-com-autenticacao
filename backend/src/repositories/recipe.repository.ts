@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { BaseRepository } from './base.repository';
 import { Difficulty, Prisma, Recipes, Tags } from '@prisma/client';
 import { OrderBy } from 'src/enum/orderby';
+import { PaginatedOutputDto } from 'src/commom/dtos/paginated-output.dto';
 
 export interface RecipeFilterParams {
   title?: string;
@@ -19,14 +20,18 @@ export class RecipeRepository extends BaseRepository<Recipes> {
     super(prisma, 'recipes');
   }
 
-  async findRecipes({
-    title,
-    difficulty,
-    ingredients,
-    prepTime,
-    tags,
-    orderBy,
-  }: RecipeFilterParams): Promise<Recipes[] | null> {
+  async findRecipes(
+    {
+      title,
+      difficulty,
+      ingredients,
+      prepTime,
+      tags,
+      orderBy,
+    }: RecipeFilterParams,
+    page: number,
+    perPage: number,
+  ): Promise<PaginatedOutputDto> {
     const where: Prisma.RecipesWhereInput = { isDeleted: false };
 
     if (title) {
@@ -64,7 +69,14 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       };
     }
 
-    return this.prisma.recipes.findMany({
+    const skip = (page - 1) * perPage;
+    const take = perPage;
+
+    const totalCount = await this.prisma.recipes.count({
+      where,
+    });
+
+    const recipes = await this.prisma.recipes.findMany({
       where,
       include: {
         _count: {
@@ -72,6 +84,23 @@ export class RecipeRepository extends BaseRepository<Recipes> {
         },
       },
       orderBy: order,
+      skip,
+      take,
     });
+
+    return {
+      data: recipes,
+      meta: {
+        total: totalCount,
+        lastPage: Math.ceil(totalCount / perPage),
+        currentPage: page,
+        perPage,
+        prev: page > 1 ? page - 1 : null,
+        next:
+          page * perPage < totalCount && page < Math.ceil(totalCount / perPage)
+            ? page + 1
+            : null,
+      },
+    };
   }
 }

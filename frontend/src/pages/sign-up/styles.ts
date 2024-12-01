@@ -68,57 +68,6 @@ export const FormTitleHeader = styled.h2`
   }
 `
 
-export const FormField = styled(Form.Field)`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-`
-
-export const FormLabel = styled(Form.Label)`
-  font-size: 16px;
-  color: ${(props) => props.theme['gray-700']};
-  font-weight: 500;
-`
-
-export const FormControl = styled.div`
-  position: relative;
-  width: 100%;
-`
-
-export const FormInput = styled.input`
-  width: 100%;
-  padding: 12px 40px;
-  border: 1px solid ${(props) => props.theme['gray-300']};
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: ${(props) => props.theme['purple-400']};
-    outline: none;
-    box-shadow: 0 0 0 3px ${(props) => props.theme['purple-200']};
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 20px;
-  }
-`
-
-export const IconWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  color: ${(props) => props.theme['gray-500']};
-  cursor: pointer;
-`
-
-export const EyeIconWrapper = styled(IconWrapper)`
-  right: 10px;
-  left: auto;
-`
-
 export const FormSubmit = styled(Form.Submit)`
   width: 100%;
   padding: 12px 16px;

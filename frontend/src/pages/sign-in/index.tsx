@@ -1,5 +1,4 @@
-import { Envelope, Eye, EyeSlash } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { Envelope } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,14 +8,8 @@ import {
   FormHeader,
   FormImageHeader,
   FormTitleHeader,
-  FormLabel,
-  FormControl,
-  FormInput,
-  FormField,
-  IconWrapper,
   FormSubmit,
   Button,
-  Required,
   LinkSection,
   StyledLink,
 } from './styles'
@@ -25,6 +18,7 @@ import { toast } from 'react-toastify'
 import { ILoginFields, loginSchema } from './validation'
 import { useAuth } from '../../hooks/useAuth'
 import { isAxiosError } from 'axios'
+import { FormFieldComponent } from '../../components/FormField'
 
 export function SignIn() {
   const form = useForm<ILoginFields>({
@@ -34,8 +28,6 @@ export function SignIn() {
       password: '',
     },
   })
-
-  const [showPassword, setShowPassword] = useState(false)
 
   const navigate = useNavigate()
   const { login } = useAuth()
@@ -61,34 +53,24 @@ export function SignIn() {
           <FormTitleHeader>Login</FormTitleHeader>
         </FormHeader>
 
-        <FormField name="email">
-          <FormLabel>
-            E-mail<Required>*</Required>
-          </FormLabel>
-          <FormControl>
-            <FormInput type="email" {...form.register('email')} required />
-            <IconWrapper>
-              <Envelope size={20} />
-            </IconWrapper>
-          </FormControl>
-        </FormField>
+        <FormFieldComponent
+          label="E-mail"
+          name="email"
+          type="email"
+          placeholder="Digite seu e-mail"
+          register={form.register('email')}
+          icon={<Envelope size={20} />}
+          required
+        />
 
-        <FormField name="password">
-          <FormLabel>
-            Senha<Required>*</Required>
-          </FormLabel>
-          <FormControl>
-            <FormInput
-              type={showPassword ? 'text' : 'password'}
-              {...form.register('password')}
-              required
-            />
-            <IconWrapper onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
-            </IconWrapper>
-          </FormControl>
-          <StyledLink href="/forgot-password">Esqueceu sua senha?</StyledLink>
-        </FormField>
+        <FormFieldComponent
+          label="Senha"
+          name="password"
+          type="password"
+          placeholder="Digite sua senha"
+          register={form.register('password')}
+          required
+        />
 
         <FormSubmit asChild>
           <Button type="submit">Entrar</Button>
