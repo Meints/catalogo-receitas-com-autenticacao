@@ -46,7 +46,7 @@ export function Avatar() {
           setUserImage(undefined)
         }
       } catch (error) {
-        console.log('Erro ao buscar dados do usuário:', error)
+        console.error(error)
       }
     }
 

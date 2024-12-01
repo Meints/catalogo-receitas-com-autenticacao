@@ -39,12 +39,10 @@ export function CreateRecipe() {
 
   const handleSubmit = async (data: CreateRecipeForm) => {
     setIsLoading(true)
-    console.log(data)
     try {
       const createdRecipe = await RecipeService.create(data)
 
       if (createdRecipe) {
-        console.log('teste', createdRecipe)
         if (photoFile) {
           await RecipeService.uploadRecipePhoto(createdRecipe.id, photoFile)
         }

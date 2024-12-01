@@ -42,7 +42,7 @@ export function FormFieldComponent({
   accept,
   onChange,
 }: Readonly<FormFieldProps>) {
-  const [showPassword, setShowPassword] = useState(false) // Estado para controlar a visibilidade da senha
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <FormField name={name}>

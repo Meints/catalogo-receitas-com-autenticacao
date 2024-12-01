@@ -47,7 +47,7 @@ export function SignUp() {
       }
     } catch (error) {
       toast.error('Erro ao cadastrar usuário.')
-      console.log(error)
+      console.error(error)
     }
   }
 

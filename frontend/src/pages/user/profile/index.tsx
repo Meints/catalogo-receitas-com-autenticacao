@@ -27,7 +27,7 @@ export function Profile() {
       form.setValue('password', '')
       setUserId(data.id)
     } catch (error) {
-      console.log(error)
+      console.error(error)
       toast.error('Erro ao carregar dados do perfil.')
     }
   }, [form])
@@ -60,7 +60,7 @@ export function Profile() {
 
       toast.success('Perfil atualizado com sucesso!')
     } catch (error) {
-      console.log(error)
+      console.error(error)
       toast.error('Erro ao atualizar o perfil.')
     } finally {
       setIsLoading(false)
