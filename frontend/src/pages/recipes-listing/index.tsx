@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Recipe } from '../../types/models'
 import { RecipeCard } from '../../components/RecipeCard'
-import { RecipesContainer } from './styles'
+import {
+  Button,
+  PageContainer,
+  PaginationFooter,
+  RecipesContainer,
+} from './styles'
 import { EmptyRecipes } from '../empty-recipes'
 import { useSearchParams } from 'react-router-dom'
 
@@ -27,7 +32,6 @@ export function RecipeListing() {
       })
       setRecipes(response.data.data)
       setPagination(response.data.meta)
-      console.log(pagination)
     } catch (error) {
       console.error(error)
     } finally {
@@ -90,20 +94,22 @@ export function RecipeListing() {
 
   return (
     <>
-      {content}
+      <PageContainer>{content}</PageContainer>
 
-      <div>
-        <button onClick={handlePrevPage} disabled={!pagination.prev}>
-          Anterior
-        </button>
-        <button onClick={handleNextPage} disabled={!pagination.next}>
-          Próxima
-        </button>
-      </div>
+      <PaginationFooter>
+        <div>
+          <Button onClick={handlePrevPage} disabled={!pagination.prev}>
+            Anterior
+          </Button>
+          <Button onClick={handleNextPage} disabled={!pagination.next}>
+            Próxima
+          </Button>
+        </div>
 
-      <p>
-        Página {pagination.currentPage} de {pagination.lastPage}
-      </p>
+        <p>
+          Página {pagination.currentPage} de {pagination.lastPage}
+        </p>
+      </PaginationFooter>
     </>
   )
 }

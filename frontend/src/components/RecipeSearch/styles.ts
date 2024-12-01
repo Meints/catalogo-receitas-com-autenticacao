@@ -11,6 +11,11 @@ export const SearchContainer = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
+    /* flex-direction: column; */
+    align-items: stretch;
+  }
+
+  @media (max-width: 550px) {
     flex-direction: column;
     align-items: stretch;
   }

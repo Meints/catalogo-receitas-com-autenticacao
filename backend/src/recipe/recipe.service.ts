@@ -40,12 +40,8 @@ export class RecipeService {
     >({ isDeleted: false });
   }
 
-  filterRecipes(
-    filterParams: RecipeFilterParams,
-    page: number,
-    perPage: number,
-  ) {
-    return this.recipeRepository.findRecipes(filterParams, page, perPage);
+  filterRecipes(filterParams: RecipeFilterParams, skip: number, take: number) {
+    return this.recipeRepository.findRecipes(filterParams, skip, take);
   }
 
   remove(id: number) {

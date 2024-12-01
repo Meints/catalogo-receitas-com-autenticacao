@@ -22,6 +22,7 @@ import {
 import { LikeService } from '../../services/like'
 import { toast } from 'react-toastify'
 import { RecipeService } from '../../services/recipe'
+import { useState, useEffect } from 'react'
 
 interface RecipeCardProps {
   image: string
@@ -34,13 +35,34 @@ export function RecipeCard({
   recipe,
   isOwner,
 }: Readonly<RecipeCardProps>) {
+  const [isLiked, setIsLiked] = useState<boolean>(false)
+
+  useEffect(() => {
+    const checkIfLiked = async () => {
+      try {
+        const likedRecipes = await LikeService.getRecipeLikes()
+
+        const liked = likedRecipes.some((like) => like.recipeId === recipe.id)
+        setIsLiked(liked)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    checkIfLiked()
+  }, [recipe.id])
+
   const handleLike = async () => {
     try {
-      const data = await LikeService.toggleLike(recipe.id)
-      if (data) {
-        toast.warning('Receita descurtida com sucesso!')
-      } else {
+      const liked = !isLiked
+      await LikeService.toggleLike(recipe.id)
+
+      setIsLiked(liked)
+
+      if (liked) {
         toast.success('Receita curtida com sucesso!')
+      } else {
+        toast.warning('Receita descurtida com sucesso!')
       }
     } catch (error) {
       console.error(error)
@@ -70,7 +92,11 @@ export function RecipeCard({
                 </button>
               ) : (
                 <button onClick={() => handleLike()}>
-                  <ThumbsUp size={40} />
+                  {isLiked ? (
+                    <ThumbsUp size={40} color="#3A1763" weight="fill" />
+                  ) : (
+                    <ThumbsUp size={40} />
+                  )}
                 </button>
               )}
             </IconContainer>

@@ -60,7 +60,9 @@ export class RecipeController {
     @Query() filterParams: RecipeFilterParams,
     @Query('page') page: number,
   ) {
-    return this.recipeService.filterRecipes(filterParams, page, 4);
+    const take = 4;
+    const skip = (page - 1) * take;
+    return this.recipeService.filterRecipes(filterParams, skip, take);
   }
 
   @Patch(':id')

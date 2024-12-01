@@ -4,10 +4,10 @@ import {
   SearchContainer,
   TitleFilterContainer,
   FiltersGroup,
-  Button,
+  // Button,
 } from './styles'
 import { ModalFilter } from '../ModalFilter'
-import { useSearchParams } from 'react-router-dom'
+// import { useSearchParams } from 'react-router-dom'
 
 export type FilterState = {
   title: string
@@ -19,7 +19,7 @@ export type FilterState = {
 }
 
 export function RecipeSearch() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  // const [searchParams, setSearchParams] = useSearchParams()
 
   // const handleFilterChange = (
   //   field: keyof FilterState,
@@ -31,9 +31,9 @@ export function RecipeSearch() {
   //   })
   // }
 
-  const applyFilters = () => {
-    console.log('Filtros aplicados:', searchParams)
-  }
+  // const applyFilters = () => {
+  //   console.log('Filtros aplicados:', searchParams)
+  // }
 
   return (
     <SearchContainer>
@@ -42,7 +42,7 @@ export function RecipeSearch() {
       </TitleFilterContainer>
       <FiltersGroup>
         <ModalFilter />
-        <Button onClick={applyFilters}>Buscar Receita</Button>
+        {/* <Button onClick={applyFilters}>Buscar Receita</Button> */}
       </FiltersGroup>
     </SearchContainer>
   )

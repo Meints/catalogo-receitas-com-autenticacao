@@ -29,8 +29,8 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       tags,
       orderBy,
     }: RecipeFilterParams,
-    page: number,
-    perPage: number,
+    skip: number,
+    take: number,
   ): Promise<PaginatedOutputDto> {
     const where: Prisma.RecipesWhereInput = { isDeleted: false };
 
@@ -69,9 +69,6 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       };
     }
 
-    const skip = (page - 1) * perPage;
-    const take = perPage;
-
     const totalCount = await this.prisma.recipes.count({
       where,
     });
@@ -92,14 +89,12 @@ export class RecipeRepository extends BaseRepository<Recipes> {
       data: recipes,
       meta: {
         total: totalCount,
-        lastPage: Math.ceil(totalCount / perPage),
-        currentPage: page,
-        perPage,
-        prev: page > 1 ? page - 1 : null,
+        currentPage: Math.ceil(skip / take) + 1,
+        perPage: take,
+        lastPage: Math.ceil(totalCount / take),
+        prev: skip > 0 ? Math.ceil(skip / take) : null,
         next:
-          page * perPage < totalCount && page < Math.ceil(totalCount / perPage)
-            ? page + 1
-            : null,
+          skip + take < totalCount ? Math.ceil((skip + take) / take) + 1 : null,
       },
     };
   }

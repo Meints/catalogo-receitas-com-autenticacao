@@ -13,7 +13,6 @@ export function TitleFilter() {
       } else {
         params.delete('title')
       }
-      console.log('Filtros aplicados:', params)
       return params
     })
   }

@@ -86,7 +86,10 @@ export const IconContainer = styled.div`
     border: none;
     cursor: pointer;
 
-    svg {
+    svg,
+    i {
+      background: rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s;
       color: ${(props) => props.theme['purple-500']};
       transition: all 0.3s ease;
       height: 20px;

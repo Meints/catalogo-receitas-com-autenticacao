@@ -26,9 +26,6 @@ export function TagFilter() {
     }
 
     setSearchParams(params)
-    console.log('Filtros aplicados:', params.toString())
-    console.log('Tag selecionada:', newSelectedTags)
-    console.log('Tags selecionadas:', selectedTags)
   }
 
   return (
