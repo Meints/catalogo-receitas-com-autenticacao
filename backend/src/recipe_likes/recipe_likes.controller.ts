@@ -11,11 +11,12 @@ export class RecipeLikesController {
   constructor(private readonly recipeLikesService: RecipeLikesService) {}
 
   @Post()
-  create(
+  async create(
     @Body() createRecipeLikeDto: CreateRecipeLikesDto,
     @CurrentUser() user: TokenSchema,
   ) {
-    return this.recipeLikesService.create(createRecipeLikeDto, user.sub.id);
+    await this.recipeLikesService.create(createRecipeLikeDto, user.sub.id);
+    return { success: true };
   }
 
   @Get('me')

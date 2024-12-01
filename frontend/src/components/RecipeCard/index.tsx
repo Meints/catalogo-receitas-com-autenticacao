@@ -25,18 +25,22 @@ import { toast } from 'react-toastify'
 import { RecipeService } from '../../services/recipe'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 
 interface RecipeCardProps {
   image: string
   recipe: Recipe
   isOwner?: boolean
+  screenLikes?: boolean
 }
 
 export function RecipeCard({
   image,
   recipe,
   isOwner,
+  screenLikes,
 }: Readonly<RecipeCardProps>) {
+  const { isAuthenticated } = useAuth()
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const navigate = useNavigate()
 
@@ -62,14 +66,20 @@ export function RecipeCard({
 
       setIsLiked(liked)
 
-      recipe._count.likes += liked ? 1 : -1
-
       if (liked) {
+        recipe._count.likes += liked ? 1 : -1
         toast.success('Receita curtida com sucesso!')
       } else {
         toast.warning('Receita descurtida com sucesso!')
+        if (screenLikes) {
+          window.location.reload()
+        }
       }
     } catch (error) {
+      if (!isAuthenticated) {
+        toast.error('Você precisa estar logado para curtir uma receita.')
+        return
+      }
       console.error(error)
       toast.error('Erro ao curtir a receita.')
     }

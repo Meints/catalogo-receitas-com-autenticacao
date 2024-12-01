@@ -55,6 +55,7 @@ export function LikedRecipes() {
               key={ilike.recipe.id}
               image={signedUrls[ilike.recipe.id]}
               recipe={ilike.recipe}
+              screenLikes
             />
           ))}
         </RecipesContainer>

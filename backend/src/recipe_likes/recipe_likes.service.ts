@@ -20,7 +20,6 @@ export class RecipeLikesService {
       await this.recipeLikesRepository.remove<Prisma.RecipeLikesWhereUniqueInput>(
         existingLike,
       );
-      return 'deleted';
     } else {
       await this.recipeLikesRepository.create<Prisma.RecipeLikesCreateInput>({
         recipe: {

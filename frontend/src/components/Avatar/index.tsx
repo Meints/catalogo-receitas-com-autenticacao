@@ -16,10 +16,11 @@ import { useEffect, useState } from 'react'
 import { UserService } from '../../services/user'
 
 export function Avatar() {
-  const { logout } = useAuth()
+  const { logout, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
   const [userImage, setUserImage] = useState<string | undefined>(undefined)
+  const [userName, setUserName] = useState<string | null>(null)
 
   const getInitials = (name: string) => {
     const nameParts = name.split(' ')
@@ -29,33 +30,53 @@ export function Avatar() {
     return (nameParts[0][0] + nameParts[1][0]).toUpperCase()
   }
 
-  const [userName, setUserName] = useState<string | null>(null)
-
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await UserService.getProfile()
-        setUserName(data.name)
+    if (isAuthenticated) {
+      const fetchUserData = async () => {
+        try {
+          const data = await UserService.getProfile()
+          setUserName(data.name)
 
-        if (data.photoKey) {
-          const signedUrl = await UserService.getSignedUrl(data.id)
-          if (typeof signedUrl === 'string' && signedUrl.trim()) {
-            setUserImage(signedUrl)
+          if (data.photoKey) {
+            const signedUrl = await UserService.getSignedUrl(data.id)
+            if (typeof signedUrl === 'string' && signedUrl.trim()) {
+              setUserImage(signedUrl)
+            }
+          } else {
+            setUserImage(undefined)
           }
-        } else {
-          setUserImage(undefined)
+        } catch (error) {
+          console.error(error)
         }
-      } catch (error) {
-        console.error(error)
       }
-    }
 
-    fetchUserData()
-  }, [])
+      fetchUserData()
+    }
+  }, [isAuthenticated])
 
   const handleLogout = () => {
     logout()
     navigate('/login')
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <MenubarRoot>
+        <Menubar.Menu>
+          <MenubarTrigger asChild>
+            <AvatarRoot>
+              <AvatarFallback>?</AvatarFallback>
+            </AvatarRoot>
+          </MenubarTrigger>
+
+          <MenubarContent>
+            <MenubarItem onClick={() => navigate('/login')}>
+              Realizar login
+            </MenubarItem>
+          </MenubarContent>
+        </Menubar.Menu>
+      </MenubarRoot>
+    )
   }
 
   return (
