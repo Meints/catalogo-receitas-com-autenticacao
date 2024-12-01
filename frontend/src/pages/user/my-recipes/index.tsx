@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { RecipeService } from '../../../services/recipe'
 import { RecipeCard } from '../../../components/RecipeCard'
 import axios from 'axios'
-import { RecipesContainer } from './styles'
+import { Paragraph, RecipesContainer } from './styles'
 import { Recipe } from '../../../types/models'
 
 export function MyRecipes() {
@@ -14,7 +14,7 @@ export function MyRecipes() {
     const fetchSignedUrls = async () => {
       const urls: Record<number, string> = {}
       for (const recipe of recipes) {
-        if (recipe.id) {
+        if (recipe.photoKey) {
           const response = await axios.get(
             `http://localhost:3333/recipes/signed_url/${recipe.id}`,
           )
@@ -51,10 +51,10 @@ export function MyRecipes() {
       <h1>Minhas Receitas</h1>
       {recipes.length > 0 ? (
         <>
-          <p>
+          <Paragraph>
             Ao clicar na lixeira, você apagará <b>permanentemente</b> a sua
             receita!
-          </p>
+          </Paragraph>
           <RecipesContainer>
             {recipes.map((recipe) => (
               <RecipeCard
@@ -67,7 +67,7 @@ export function MyRecipes() {
           </RecipesContainer>
         </>
       ) : (
-        <p>Você ainda não tem receitas cadastradas.</p>
+        <Paragraph>Você ainda não tem receitas cadastradas.</Paragraph>
       )}
     </>
   )

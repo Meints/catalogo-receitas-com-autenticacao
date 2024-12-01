@@ -6,14 +6,13 @@ export const EditRecipeContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 20px;
 `
 
 export const FormContainer = styled(Form.Root)`
   max-width: 80vw;
   background: ${(props) => props.theme.white};
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  width: 40%;
+  width: 50%;
   padding: 40px 20px;
   border-radius: 15px;
   display: flex;
@@ -54,6 +53,10 @@ export const TagContainer = styled.div`
   grid-auto-flow: column;
   gap: 16px;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    grid-template-rows: repeat(9, auto);
+  }
 
   @media (max-width: 480px) {
     grid-template-rows: repeat(9, auto);

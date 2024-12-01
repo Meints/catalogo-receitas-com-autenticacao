@@ -29,23 +29,25 @@ export function CreateRecipe() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
-  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setPhotoFile(file)
-      setPreviewPhoto(URL.createObjectURL(file))
     }
   }
 
   const handleSubmit = async (data: CreateRecipeForm) => {
     setIsLoading(true)
+    console.log(data)
     try {
       const createdRecipe = await RecipeService.create(data)
 
-      if (photoFile) {
-        await RecipeService.uploadRecipePhoto(createdRecipe.id, photoFile)
+      if (createdRecipe) {
+        console.log('teste', createdRecipe)
+        if (photoFile) {
+          await RecipeService.uploadRecipePhoto(createdRecipe.id, photoFile)
+        }
       }
 
       toast.success('Receita criada com sucesso!')
@@ -70,19 +72,6 @@ export function CreateRecipe() {
           icon={<NotePencil size={20} />}
           required
         />
-        {/* <FormField name="title">
-          <FormLabel>Título</FormLabel>
-          <FormControl>
-            <FormInput
-              {...form.register('title')}
-              placeholder="Digite o título da receita"
-              required
-            />
-            <IconWrapper>
-              <NotePencil size={20} />
-            </IconWrapper>
-          </FormControl>
-        </FormField> */}
 
         <FormFieldComponent
           name="prepTime"
@@ -94,21 +83,6 @@ export function CreateRecipe() {
           icon={<Clock size={20} />}
           required
         />
-        {/* <FormField name="prepTime">
-          <FormLabel>Tempo de Preparo (min)</FormLabel>
-          <FormControl>
-            <FormInput
-              type="number"
-              {...form.register('prepTime')}
-              placeholder="Ex: 45"
-              min={1}
-              required
-            />
-            <IconWrapper>
-              <Clock size={20} />
-            </IconWrapper>
-          </FormControl>
-        </FormField> */}
 
         <FormFieldComponent
           label="Dificuldade"
@@ -123,17 +97,6 @@ export function CreateRecipe() {
           required
         />
 
-        {/* <FormField name="difficulty">
-          <FormLabel>Dificuldade</FormLabel>
-          <FormControl>
-            <select {...form.register('difficulty')} required>
-              <option value={DifficultyRecipe.EASY}>Fácil</option>
-              <option value={DifficultyRecipe.MEDIUM}>Médio</option>
-              <option value={DifficultyRecipe.HARD}>Difícil</option>
-            </select>
-          </FormControl>
-        </FormField> */}
-
         <FormFieldComponent
           name="ingredients"
           label="Ingredientes (Separados por vírgula)"
@@ -142,16 +105,6 @@ export function CreateRecipe() {
           icon={<NotePencil size={20} />}
           required
         />
-        {/* <FormField name="ingredients">
-          <FormLabel>Ingredientes (Separados por vírgula)</FormLabel>
-          <FormControl>
-            <FormInput
-              {...form.register('ingredients')}
-              placeholder="Digite os ingredientes"
-              required
-            />
-          </FormControl>
-        </FormField> */}
 
         <FormFieldComponent
           name="instructions"
@@ -161,16 +114,6 @@ export function CreateRecipe() {
           required
           isTextArea
         />
-        {/* <FormField name="instructions">
-          <FormLabel>Modo de Preparo</FormLabel>
-          <FormControl>
-            <StyledTextArea
-              {...form.register('instructions')}
-              placeholder="Digite as instruções de preparo"
-              required
-            />
-          </FormControl>
-        </FormField> */}
 
         <FormField name="tags">
           <FormLabel>Tags</FormLabel>
@@ -213,18 +156,6 @@ export function CreateRecipe() {
           accept="image/*"
           icon={<Camera size={20} />}
         />
-
-        {previewPhoto && <img src={previewPhoto} alt="Preview" width={100} />}
-        {/* <FormField name="photo">
-          <FormLabel>Foto</FormLabel>
-          <FormControl>
-            <input
-              type="file"
-              {...form.register('photoKey')}
-              accept="image/*"
-            />
-          </FormControl>
-        </FormField> */}
 
         <FormSubmit asChild>
           <Button type="submit" disabled={isLoading}>

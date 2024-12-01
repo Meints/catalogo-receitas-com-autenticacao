@@ -15,8 +15,13 @@ export class RecipeService {
     private readonly awsService: AwsService,
   ) {}
 
-  async create(createRecipeDto: CreateRecipeDto) {
-    const recipe = await this.recipeRepository.create(createRecipeDto);
+  async create(createRecipeDto: CreateRecipeDto, userId: string) {
+    const recipeData = {
+      ...createRecipeDto,
+      userId,
+    };
+
+    const recipe = await this.recipeRepository.create(recipeData);
     return recipe;
   }
 

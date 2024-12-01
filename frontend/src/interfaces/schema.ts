@@ -14,6 +14,9 @@ export interface IRecipe {
   createdAt: Date
   updatedAt: Date
   photoKey: string
+  _count?: {
+    likes: number
+  }
 }
 
 export interface ILike {

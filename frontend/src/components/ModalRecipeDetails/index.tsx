@@ -1,3 +1,4 @@
+import Comida from '../../assets/prato-comida.jpg'
 import { DifficultyRecipe, Recipe, TagsRecipe } from '../../types/models'
 import {
   DialogClose,
@@ -28,7 +29,7 @@ export function ModalRecipeDetails({
   return (
     <ModalContainer>
       <ImageContainer>
-        <ModalImage src={image} alt={recipe.title} />
+        <ModalImage src={image ?? Comida} alt={recipe.title} />
       </ImageContainer>
       <ModalContent>
         <ModalInfo>

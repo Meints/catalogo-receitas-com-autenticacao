@@ -47,7 +47,7 @@ export function RecipeListing() {
     const fetchSignedUrls = async () => {
       const urls: Record<number, string> = {}
       for (const recipe of recipes) {
-        if (recipe.id) {
+        if (recipe.photoKey) {
           const response = await axios.get(
             `http://localhost:3333/recipes/signed_url/${recipe.id}`,
           )

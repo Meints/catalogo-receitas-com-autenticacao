@@ -8,7 +8,7 @@ import { Profile } from './pages/user/profile'
 import { MyRecipes } from './pages/user/my-recipes'
 import { LikedRecipes } from './pages/user/liked-recipes'
 import { DefaultLayout } from './layouts/DefaultLayout'
-// import { EditRecipe } from './pages/edit-recipe'
+import { EditRecipe } from './pages/edit-recipe'
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
       { path: 'profile', element: <Profile /> },
       { path: 'create-recipe', element: <CreateRecipe /> },
       { path: 'my-recipes', element: <MyRecipes /> },
-      // { path: 'edit-recipe/:id', element: <EditRecipe /> },
+      { path: 'edit-recipe/:id', element: <EditRecipe /> },
       { path: 'liked-recipes', element: <LikedRecipes /> },
     ],
   },

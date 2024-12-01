@@ -8,3 +8,6 @@ export const RecipesContainer = styled.div`
   justify-content: center;
   max-width: 80vw;
 `
+export const Paragraph = styled.p`
+  text-align: center;
+`

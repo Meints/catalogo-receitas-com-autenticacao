@@ -14,7 +14,7 @@ export function LikedRecipes() {
     const fetchSignedUrls = async () => {
       const urls: Record<number, string> = {}
       for (const recipe of recipes) {
-        if (recipe.id) {
+        if (recipe.recipe.photoKey) {
           const response = await axios.get(
             `http://localhost:3333/recipes/signed_url/${recipe.recipe.id}`,
           )

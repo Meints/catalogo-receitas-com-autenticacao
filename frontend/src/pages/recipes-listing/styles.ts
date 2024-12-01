@@ -4,7 +4,8 @@ export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 68vh;
+  min-height: 70vh;
+  max-width: 100vw;
 `
 
 export const RecipesContainer = styled.div`

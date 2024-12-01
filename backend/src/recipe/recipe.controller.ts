@@ -16,7 +16,6 @@ import {
 import { RecipeService } from './recipe.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { SuccessResponseDTO } from 'src/utils/dto/success-response.dto';
 import { RecipeFilterParams } from 'src/repositories/recipe.repository';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -24,6 +23,7 @@ import { CurrentUser } from 'src/auth/current-user-decorator';
 import { TokenSchema } from 'src/auth/jwt.strategy';
 import { ApiPaginatedResponse } from 'src/commom/decorator/ApiPaginatedResponse';
 import { RecipeDto } from './dto/recipe.dto';
+import { Recipes } from '@prisma/client';
 
 @Controller('/recipes')
 export class RecipeController {
@@ -49,9 +49,9 @@ export class RecipeController {
   @UseGuards(JwtAuthGuard)
   async create(
     @Body() createRecipeDto: CreateRecipeDto,
-  ): Promise<SuccessResponseDTO> {
-    this.recipeService.create(createRecipeDto);
-    return { success: true };
+    @CurrentUser() user: TokenSchema,
+  ): Promise<Recipes> {
+    return this.recipeService.create(createRecipeDto, user.sub.id);
   }
 
   @Get()
@@ -60,7 +60,7 @@ export class RecipeController {
     @Query() filterParams: RecipeFilterParams,
     @Query('page') page: number,
   ) {
-    const take = 4;
+    const take = 8;
     const skip = (page - 1) * take;
     return this.recipeService.filterRecipes(filterParams, skip, take);
   }

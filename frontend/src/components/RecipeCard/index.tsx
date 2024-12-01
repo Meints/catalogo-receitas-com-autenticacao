@@ -1,3 +1,4 @@
+import Comida from '../../assets/prato-comida.jpg'
 import { TrashSimple, ThumbsUp } from '@phosphor-icons/react'
 import { DifficultyRecipe, Recipe, TagsRecipe } from '../../types/models'
 import { ModalRecipeDetails } from '../ModalRecipeDetails'
@@ -23,6 +24,7 @@ import { LikeService } from '../../services/like'
 import { toast } from 'react-toastify'
 import { RecipeService } from '../../services/recipe'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface RecipeCardProps {
   image: string
@@ -36,6 +38,7 @@ export function RecipeCard({
   isOwner,
 }: Readonly<RecipeCardProps>) {
   const [isLiked, setIsLiked] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const checkIfLiked = async () => {
@@ -59,6 +62,8 @@ export function RecipeCard({
 
       setIsLiked(liked)
 
+      recipe._count.likes += liked ? 1 : -1
+
       if (liked) {
         toast.success('Receita curtida com sucesso!')
       } else {
@@ -77,21 +82,39 @@ export function RecipeCard({
     } catch (error) {
       console.error(error)
       toast.error('Erro ao deletar a receita.')
+    } finally {
+      window.location.reload()
+    }
+  }
+
+  const handleRecipeClick = () => {
+    if (isOwner) {
+      navigate(`/user/edit-recipe/${recipe.id}`)
     }
   }
 
   return (
     <DialogContainer>
-      <DialogTrigger>
+      <DialogTrigger onClick={handleRecipeClick}>
         <Card>
           <ImageContainer>
             <IconContainer>
               {isOwner ? (
-                <button onClick={() => handleDelete()}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDelete()
+                  }}
+                >
                   <TrashSimple size={40} />
                 </button>
               ) : (
-                <button onClick={() => handleLike()}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleLike()
+                  }}
+                >
                   {isLiked ? (
                     <ThumbsUp size={40} color="#3A1763" weight="fill" />
                   ) : (
@@ -100,7 +123,7 @@ export function RecipeCard({
                 </button>
               )}
             </IconContainer>
-            <Image src={image} alt={recipe.title} />
+            <Image src={image ?? Comida} alt={recipe.title} />
             <OverlayContainer>
               <OverlayText variant={DifficultyRecipe[recipe.difficulty]}>
                 {DifficultyRecipe[recipe.difficulty].toUpperCase()}

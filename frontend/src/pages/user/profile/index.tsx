@@ -64,6 +64,7 @@ export function Profile() {
       toast.error('Erro ao atualizar o perfil.')
     } finally {
       setIsLoading(false)
+      window.location.reload()
     }
   }
 

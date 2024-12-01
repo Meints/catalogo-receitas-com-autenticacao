@@ -2,6 +2,7 @@ import { ISuccessResponse } from '../interfaces/routes'
 import { IRecipe } from '../interfaces/schema'
 import http from '../lib/http'
 import { CreateRecipeForm } from '../pages/create-recipe/validation'
+import { UpdateRecipeForm } from '../pages/edit-recipe/validation'
 import { Recipe } from '../types/models'
 
 export const RecipeService = {
@@ -10,8 +11,8 @@ export const RecipeService = {
     return response.data
   },
 
-  update: async (data: IRecipe) => {
-    const response = await http.patch<IRecipe>('/recipes', data)
+  update: async (data: UpdateRecipeForm, recipeId: number) => {
+    const response = await http.patch<IRecipe>(`/recipes/${recipeId}`, data)
     return response.data
   },
 
@@ -26,7 +27,7 @@ export const RecipeService = {
   },
 
   getRecipeById: async (recipeId: number) => {
-    const response = await http.get<IRecipe>(`/recipes/${recipeId}`)
+    const response = await http.get<Recipe>(`/recipes/${recipeId}`)
     return response.data
   },
 

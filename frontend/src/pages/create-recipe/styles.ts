@@ -6,7 +6,6 @@ export const CreateRecipeContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 20px;
 `
 
 export const FormContainer = styled(Form.Root)`
@@ -47,70 +46,6 @@ export const FormControl = styled.div`
   position: relative;
   width: 100%;
 `
-
-// export const FormInput = styled.input`
-//   width: 100%;
-//   padding: 12px 20px;
-//   border: 1px solid ${(props) => props.theme['gray-300']};
-//   border-radius: 8px;
-//   font-size: 14px;
-//   transition: border-color 0.2s;
-
-//   &:focus {
-//     border-color: ${(props) => props.theme['purple-400']};
-//     outline: none;
-//     box-shadow: 0 0 0 3px ${(props) => props.theme['purple-200']};
-//   }
-
-//   &:disabled {
-//     background-color: ${(props) => props.theme['gray-200']};
-//     cursor: not-allowed;
-//   }
-
-//   &::placeholder {
-//     color: ${(props) => props.theme['gray-500']};
-//   }
-// `
-
-// export const StyledTextArea = styled.textarea`
-//   width: 100%;
-//   padding: 12px;
-//   border: 1px solid ${(props) => props.theme['gray-300']};
-//   border-radius: 8px;
-//   font-size: 16px;
-//   line-height: 1.5;
-//   resize: none;
-//   transition: border-color 0.2s ease;
-
-//   &:focus {
-//     border-color: ${(props) => props.theme['purple-400']};
-//     outline: none;
-//     box-shadow: 0 0 0 3px ${(props) => props.theme['purple-200']};
-//   }
-// `
-
-// export const FormSelect = styled.select`
-//   width: 100%;
-//   padding: 12px 16px;
-//   border: 1px solid ${(props) => props.theme['gray-300']};
-//   border-radius: 8px;
-//   font-size: 16px;
-
-//   &:focus {
-//     border-color: ${(props) => props.theme['purple-400']};
-//     outline: none;
-//     box-shadow: 0 0 0 3px ${(props) => props.theme['purple-200']};
-//   }
-// `
-
-// export const IconWrapper = styled.div`
-//   position: absolute;
-//   top: 50%;
-//   right: 10px;
-//   transform: translateY(-50%);
-//   color: ${(props) => props.theme['gray-500']};
-//   cursor: pointer;
-// `
 
 export const FormSubmit = styled(Form.Submit)`
   width: 100%;
@@ -162,6 +97,10 @@ export const TagContainer = styled.div`
   grid-auto-flow: column;
   gap: 16px;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    grid-template-rows: repeat(9, auto);
+  }
 
   @media (max-width: 480px) {
     grid-template-rows: repeat(9, auto);
