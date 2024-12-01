@@ -3,46 +3,56 @@
 Este projeto é um catálogo de receitas com autenticação, desenvolvido utilizando as tecnologias NestJS para o backend e React com Vite para o frontend.
 
 ## Estrutura do Projeto
+```
 backend/
-    .env
-    .eslintrc.js
-    .gitignore
-    .prettierrc
-    client.http
-    nest-cli.json
-    package.json
-    prisma/
-        migrations/
-        schema.prisma
-    private_key.pem
-    public_key.pem
-    README.md
-    src/
-        app.controller.ts
-        app.module.ts
-        app.service.ts
-        auth/
-        aws/
-        commom/
-        enum/
-        env.ts
-        main.ts
-        ...
-    test/
-    tsconfig.build.json
-    tsconfig.json
+│
+├── .env                        # Arquivo de configuração de variáveis de ambiente
+├── .eslintrc.js                # Configuração do ESLint
+├── .gitignore                  # Configurações de exclusão do Git
+├── .prettierrc                 # Configuração do Prettier
+├── client.http                 # Arquivo para testes HTTP
+├── nest-cli.json               # Configuração do NestJS CLI
+├── package.json                # Dependências e scripts do projeto
+├── private_key.pem             # Chave privada (para autenticação/token)
+├── public_key.pem              # Chave pública (para autenticação/token)
+├── README.md                   # Documentação do backend
+│
+├── prisma/                     # Configurações e migrações do Prisma
+│   ├── migrations/             # Diretório de migrações
+│   └── schema.prisma           # Definição do modelo de dados
+│
+├── src/                        # Código fonte do backend
+│   ├── app.controller.ts       # Controlador principal da aplicação
+│   ├── app.module.ts           # Módulo principal da aplicação
+│   ├── app.service.ts          # Serviço principal da aplicação
+│   ├── auth/                   # Módulo de autenticação
+│   ├── aws/                    # Integrações com AWS
+│   ├── common/                 # Recursos comuns compartilhados
+│   ├── enum/                   # Definições de enumeradores
+│   ├── env.ts                  # Configurações de ambiente
+│   ├── main.ts                 # Ponto de entrada da aplicação
+│   └── ...                     # Outros módulos e recursos
+│
+├── test/                       # Testes do backend
+├── tsconfig.build.json         # Configuração do TypeScript para build
+└── tsconfig.json               # Configuração principal do TypeScript
+
 frontend/
-    .eslintrc.cjs
-    .gitignore
-    index.html
-    package.json
-    README.md
-    src/
-    tsconfig.app.json
-    tsconfig.json
-    tsconfig.node.json
-    vite.config.ts
-README.md
+│
+├── .eslintrc.cjs               # Configuração do ESLint
+├── .gitignore                  # Configurações de exclusão do Git
+├── index.html                  # Arquivo principal HTML do frontend
+├── package.json                # Dependências e scripts do projeto
+├── README.md                   # Documentação do frontend
+│
+├── src/                        # Código fonte do frontend
+│
+├── tsconfig.app.json           # Configuração do TypeScript para a aplicação
+├── tsconfig.json               # Configuração principal do TypeScript
+├── tsconfig.node.json          # Configuração do TypeScript para Node.js
+└── vite.config.ts              # Configuração do Vite
+
+```
 
 
 ## Tecnologias Utilizadas
